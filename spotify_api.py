@@ -1,9 +1,10 @@
+import time
 import configparser
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 config = configparser.ConfigParser(allow_no_value=True)
-config.read('config.ini')
+config.read('config.cfg')
 
 device_card_uid = config['UIDS']['device_card_uid']
 learn_card_uid = config['UIDS']['learn_card_uid']
@@ -27,21 +28,27 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
 def current_playback():
     playback = sp.current_playback()
     if playback != None:
-        return (playback['context']['uri'], playback['item']['name'], playback['item']['artists'][0]['name'])
+        try:
+            return [playback['context']['uri'], playback['item']['name'], playback['item']['artists'][0]['name']]
+        except TypeError:   #Personal playlists cant be learned that easy. WIP
+            return -1
     else:
         return -1
 
 
 def current_device():
-    playback = sp.current_playback()
-    if playback != None:
-        return (playback['device']['id'],playback['device']['name'])
+    data = sp.current_playback()
+    if data != None:
+        return (data['device']['id'],data['device']['name'])
     else:
         return -1
+    
+def check_available(d_id):
+    return d_id in [device['id'] for device in sp.devices()['devices']]
 
-def set_config_value(cathegory: str, valname: str, value):
-    config.set(cathegory, valname, value)
-    with open('config.ini', 'w') as configfile:
+def set_config_value(category: str, valname: str, value):
+    config.set(category, valname, value)
+    with open('config.cfg', 'w') as configfile:
         config.write(configfile)
         configfile.close()
         
@@ -59,16 +66,31 @@ def skip():
 
 
 def play_context_URI(uri: str):
-    shuffle_on()
-    sp.start_playback(device_id=config['AUTH']['device_id'], context_uri=uri)
-
+    current = current_device()
+    if current == -1:
+        sp.transfer_playback(config['AUTH']['device_id'], force_play=False)#Workaround for permission problems when old playback was on other device
+        time.sleep(0.5)
+        sp.pause_playback()
+    elif current[0] != config['AUTH']['device_id']:
+        sp.transfer_playback(config['AUTH']['device_id'], force_play=False)#Workaround for permission problems when other device is currently in playback
+        time.sleep(0.5)
+        sp.pause_playback()
+    if check_available(config['AUTH']['device_id']):#check if device is even online for playback
+        shuffle_on()
+        sp.start_playback(device_id=config['AUTH']['device_id'], context_uri=uri)
+        return 1
+    else:
+        return -1
+        #This program is meant for always on spotify connect devices. Using not always online devices results in problems with playback
+        #Migrate play URIs
 
 def play_URIs(uris: list):
+    shuffle_on()
     sp.start_playback(device_id=config['AUTH']['device_id'], uris=uris)
 
 
 def look_for_URI(hexstring: str):
-    with open("connections.csv", "r") as f:
+    with open("learned.csv", "r") as f:
         data = f.readlines()
         data = [x.strip() for x in data]
         data = [x.split(";") for x in data]
@@ -80,12 +102,9 @@ def look_for_URI(hexstring: str):
 
 
 if __name__ == "__main__":
-    import time
-    #devices = sp.devices()
-    # pp.pprint(devices)
-    # shuffle_on()
-    #sp.start_playback(device_id=device_id, context_uri='spotify:playlist:4ZkdemV8jqmSzdmXBV0dce')
-    #uri = look_for_URI("4aa345aab4880")
-    #print(uri,type(uri))
+    #play_context_URI("spotify:user:spotify:playlist:37i9dQZF1DX5xiztvBdlUf")
+    play_user_saved()
+    #uri = "spotify:user:spotify:playlist:37i9dQZF1DX5xiztvBdlUf"
+    #sp.start_playback(device_id=config['AUTH']['device_id'], context_uri=uri)
     #play_context_URI(uri)
-    current_playback()
+    print(current_device())
