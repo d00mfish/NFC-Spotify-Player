@@ -18,7 +18,7 @@ print("Waiting for NFC-card...")
 
 def RFID_read():
     # Check if a card is available to read
-    uid = pn532.read_passive_target(timeout=0.5)
+    uid = pn532.read_passive_target(timeout=10)
     #uid = RFID_read_test(7)
     if uid is None:
         retval = None
