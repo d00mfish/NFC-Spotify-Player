@@ -1,6 +1,6 @@
 import time
 import rfid_com as rfid
-from spotify_api import device_card_uid, learn_card_uid, current_device, set_config_value, look_for_URI, play_context_URI
+from spotify_api import device_card_uid, learn_card_uid, current_device, set_config_value, look_for_URI, play_context_URI, shuffle_on
 rfid_timeout_time = 0.5
 
 # SPI connection:
@@ -20,6 +20,10 @@ while(True):
             set_config_value('AUTH','device_id',str(device_data[0]))
             print("Set {} as new device.".format(device_data[1]))
             time.sleep(2)
+        else:
+            print("No playback detected, can't set device.")
+            time.sleep(1)
+            print("Waiting for RFID Signal...")
 
     elif uid == learn_card_uid:
         ret = rfid.RFID_learn()
@@ -38,9 +42,14 @@ while(True):
             time.sleep(1)
             print("Waiting for RFID Signal...")
         else:
-            play_context_URI(uri)  # play uri playlist at device
-            print("Found Music-Card. Playing now!")
-            time.sleep(1)
-            print("Waiting for RFID Signal...")
+            if play_context_URI(uri) != -1:  # play uri playlist at device
+                print("Found Music-Card. Playing now!")
+                time.sleep(1)
+                print("Waiting for RFID Signal...")
+            else:
+                print("Current device unavailable, please select an available device.") #maybe use fallback device afterwards?
+                print("This can happen if you use a Phone or PC that is not always online.")
+                time.sleep(1)
+                print("Waiting for RFID Signal...")
 
 
