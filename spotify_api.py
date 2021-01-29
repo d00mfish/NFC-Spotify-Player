@@ -103,9 +103,4 @@ def look_for_URI(hexstring: str):
 
 
 if __name__ == "__main__":
-    #play_context_URI("spotify:user:spotify:playlist:37i9dQZF1DX5xiztvBdlUf")
-    play_user_saved()
-    #uri = "spotify:user:spotify:playlist:37i9dQZF1DX5xiztvBdlUf"
-    #sp.start_playback(device_id=config['AUTH']['device_id'], context_uri=uri)
-    #play_context_URI(uri)
-    print(current_device())
+    sp.me()
