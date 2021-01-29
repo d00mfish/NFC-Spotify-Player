@@ -50,6 +50,7 @@ def RFID_learn():
         uri = current[0]
     except TypeError:
         print(">Please play a track out of the playlist you want to learn.")
+        print(">Can't be \"Liked Songs\" or Podcast-Shows.")
         print(">Aborting Learning.")
         return -1
 
@@ -85,7 +86,7 @@ def RFID_learn():
             # Save UID and URI in CSV
             if look_for_URI(uid) == -1:  #test if UID already in use
                 line = uid + ";" + uri + '\n'
-                with open('connections.csv', 'a') as f:
+                with open('learned.csv', 'a') as f:
                     f.write(line)
                 print("Successfully leaned!")
                 # LED 2sec green
