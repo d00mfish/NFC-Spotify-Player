@@ -73,8 +73,9 @@ def play_context_URI(uri: str):
         sp.pause_playback()
     elif current[0] != config['AUTH']['device_id']:
         sp.transfer_playback(config['AUTH']['device_id'], force_play=False)#Workaround for permission problems when other device is currently in playback
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.pause_playback()
+        time.sleep(0.3)
     if check_available(config['AUTH']['device_id']):#check if device is even online for playback
         shuffle_on()
         sp.start_playback(device_id=config['AUTH']['device_id'], context_uri=uri)
