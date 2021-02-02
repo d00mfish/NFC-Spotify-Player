@@ -133,7 +133,6 @@ if __name__ == "__main__":
         
         
         
-        play_context_URI(uri)
         time.sleep(5)
 
     '''
