@@ -24,13 +24,13 @@ while(True):
     
     #Starting Card-Writing
     elif str_uid == spotify.learn_card_uid:
-        if rfid.write_card(spotify.current_playback()) == -1:
+        if rfid.learn_card(spotify.current_playback()) == -1:
             print("Something went wrong writing the new Music-Card.")
         time.sleep(2)
 
 
     else:
-        uri = rfid.read_uri(uid)
+        uri = rfid.look_for_URI(uid)
         if uri == -1:
             print("Problem while reading. Make sure you already added this Card.")
             time.sleep(1)

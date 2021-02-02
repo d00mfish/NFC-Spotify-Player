@@ -3,7 +3,7 @@ import time
 import board
 import busio
 from digitalio import DigitalInOut
-from spotify_api import device_card_uid, learn_card_uid
+from spotify_api import look_for_URI, device_card_uid, learn_card_uid
 from adafruit_pn532.spi import PN532_SPI
 
 spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
@@ -13,6 +13,8 @@ ic, ver, rev, support = pn532.firmware_version
 print("Found PN532 with firmware version: {0}.{1}".format(ver, rev))
 pn532.SAM_configuration()
 pn532.listen_for_passive_target()
+
+
 def wait_for_uid():
     print("Waiting for RFID Signal...")
     uid = pn532.read_passive_target(timeout=10)
@@ -23,20 +25,24 @@ def wait_for_uid():
     return uid, str_uid
 
 
+def look_for_URI(hexstring: str):
+    with open("connections.csv", "r") as f:
+        data = f.readlines()
+        data = [x.strip() for x in data]
+        data = [x.split(";") for x in data]
+        uri = [x for x in data if hexstring in x]
+        if uri == []:
+            return -1
+        else:
+            return uri[0][1]
 
 
-
-
-
-
-
-def learn_card(current):    # Get current playlist uri and playing song info
-    # Get current playlist uri and playing song info
+def learn_card(current_playback):
     try:
         print("")
         print("Playing a playlist containing: {}, by {}.".format(
-            current[1], current[2]))
-        uri = current[0]
+            current_playback[1], current_playback[2]))
+        uri = current_playback[0]
     except TypeError:
         print('''
         >Please play a track out of the playlist you want to learn.
@@ -44,7 +50,6 @@ def learn_card(current):    # Get current playlist uri and playing song info
         >Aborting Learning.
         ''')
         return -1
-
     time.sleep(2)  # wait to avoid double scanning
 
     print("Scan and hold the card you want to learn now.")
@@ -58,7 +63,7 @@ def learn_card(current):    # Get current playlist uri and playing song info
         print("Got UID: {}".format(str_uid))
         time.sleep(0.5)
         print("Scan learn-card again to confirm...")
-        tmp, str_tmp = wait_for_uid()
+        str_tmp = wait_for_uid()[1]
         if str_tmp != learn_card_uid:
             print(">Scanned card was not the learn-card.")
             print(">Aborting Learning.")
@@ -79,13 +84,15 @@ def learn_card(current):    # Get current playlist uri and playing song info
         else:
             return -1
 
+
+
 if __name__ == "__main__":
 
     while(1):
         print("Scan and hold the card you want to learn now.")
         uid = wait_for_uid()
         print("UID-Found:{}".format(uid))
-         time.sleep(5)
+        time.sleep(5)
 
     '''
     while(1):

@@ -1,3 +1,4 @@
+import time
 import configparser
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -87,17 +88,6 @@ def play_context_URI(uri: str):
 
 def play_URIs(uris: list):
     sp.start_playback(device_id=config['DEVICE']['device_id'], uris=uris)
-
-def look_for_URI(hexstring: str):
-    with open("connections.csv", "r") as f:
-        data = f.readlines()
-        data = [x.strip() for x in data]
-        data = [x.split(";") for x in data]
-        uri = [x for x in data if hexstring in x]
-        if uri == []:
-            return -1
-        else:
-            return uri[0][1]
 
 
 if __name__ == "__main__":
