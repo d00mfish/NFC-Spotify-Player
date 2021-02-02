@@ -36,4 +36,4 @@ def playlist_image(uri):
 
 
 if __name__ == "__main__":
-    print(type(playlist_image(spotify:album:2kcUXoH9BvKlt1eEsQkRR6)))
+    print(type(playlist_image("spotify:album:2kcUXoH9BvKltkRR61eEsQ")))
