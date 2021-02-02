@@ -53,11 +53,10 @@ def learn_card(current):    # Get current playlist uri and playing song info
     if str_uid == learn_card_uid or str_uid == device_card_uid:
         print("Can't learn the device or learn card. Arborting!")
         return -1
-    print("Got UID: {}".format(str_uid))
 
-    
-    
     else:
+        print("Got UID: {}".format(str_uid))
+        time.sleep(0.5)
         print("Scan learn-card again to confirm...")
         tmp, str_tmp = wait_for_uid()
         if str_tmp != learn_card_uid:
