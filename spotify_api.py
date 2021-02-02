@@ -1,4 +1,3 @@
-import time
 import configparser
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -37,7 +36,6 @@ def current_device():   #returns two values, the id and name if there is a devic
         return data['device']['id'], data['device']['name']
     else:
         return -1, -1
-    
 def check_available(d_id):
     return d_id in [device['id'] for device in sp.devices()['devices']]
 
@@ -49,16 +47,17 @@ def set_config_value(category: str, valname: str, value):
         
 
 def shuffle_on():
-    sp.shuffle(state=True, device_id=config['DEVICE']['device_id'])
-
+    sp.shuffle(state=True, device_id=config['AUTH']['device_id'])
+    
 def set_volume(value: int):
     sp.volume(device_id=config['DEVICE']['device_id'],volume_percent=value)
 
 def pause():
-    sp.pause_playback(device_id=config['DEVICE']['device_id'])
+    sp.pause_playback(device_id=config['AUTH']['device_id'])
+
 
 def skip():
-    sp.next_track(device_id=config['DEVICE']['device_id'])
+    sp.next_track(device_id=config['AUTH']['device_id'])
 
 
 def play_context_URI(uri: str):
@@ -89,6 +88,17 @@ def play_context_URI(uri: str):
 def play_URIs(uris: list):
     sp.start_playback(device_id=config['DEVICE']['device_id'], uris=uris)
 
+def look_for_URI(hexstring: str):
+    with open("connections.csv", "r") as f:
+        data = f.readlines()
+        data = [x.strip() for x in data]
+        data = [x.split(";") for x in data]
+        uri = [x for x in data if hexstring in x]
+        if uri == []:
+            return -1
+        else:
+            return uri[0][1]
+
 
 if __name__ == "__main__":
-    sp.me()
+    print(sp.me())

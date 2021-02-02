@@ -9,7 +9,7 @@ print("Scan the setup-card to assign the current playing device as default.")
 while(True):
     uid, str_uid = rfid.wait_for_uid()
     #get_shuffle_state()
-    
+
     
     #Device Learning
     if str_uid == spotify.device_card_uid:
@@ -27,8 +27,8 @@ while(True):
         if rfid.write_card(spotify.current_playback()) == -1:
             print("Something went wrong writing the new Music-Card.")
         time.sleep(2)
-        
-    #read data and play
+
+
     else:
         uri = rfid.read_uri(uid)
         if uri == -1:
@@ -45,5 +45,5 @@ while(True):
             
         print("Playing now!")
         time.sleep(1)
-        
-            
+
+
