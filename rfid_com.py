@@ -94,6 +94,13 @@ if __name__ == "__main__":
         print("UID-Found:{}".format(uid))
         time.sleep(5)
 
+
+
+
+
+
+
+
     '''
     while(1):
         uid = pn532.read_passive_target(timeout=0.5)
