@@ -1,4 +1,4 @@
-import time
+from time import sleep
 import rfid_com as rfid
 import spotify_api as spotify
 
@@ -21,23 +21,23 @@ def main():
             if device_id != -1:  # set device id if id sucessfull retrieved
                 spotify.set_config_value("DEVICE", "device_id", str(device_id))
                 print("Set {} as new device. ID:{}".format(device_name, device_id))
-                time.sleep(2)
+                sleep(2)
                 continue
             print("No playback detected, can't set device.")
-            time.sleep(2)
+            sleep(2)
 
         # Starting Card-Writing
         elif str_uid == spotify.learn_card_uid:
             if write_card() == -1:
                 print("Something went wrong writing the new Music-Card.")
-            time.sleep(2)
+            sleep(2)
 
         # read data and play
         else:
             uri = rfid.read_uri(uid)
             if uri == -1:
                 print("Make sure you already added this Card.")
-                time.sleep(1)
+                sleep(1)
                 continue
 
             print("Found Music-Card.")
@@ -48,11 +48,11 @@ def main():
                 print(
                     "This can happen if you use a Phone or PC that is not always online."
                 )
-                time.sleep(1)
+                sleep(1)
                 continue
 
             print("Playing now!")
-            time.sleep(1)
+            sleep(1)
 
 
 def write_card():
@@ -72,7 +72,7 @@ def write_card():
     print("Playing a playlist containing: {}, by {}.".format(current[1], current[2]))
     uri = current[0]
 
-    time.sleep(3)
+    sleep(3)
 
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
@@ -89,4 +89,11 @@ def write_card():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        print("CRASHED! Restarting in 10 seconds")
+        #led rot an
+        sleep(5)
+        #led rot aus
+        sleep(5)

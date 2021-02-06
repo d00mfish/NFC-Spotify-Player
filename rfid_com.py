@@ -77,7 +77,9 @@ def write_uri(uri):
     for i in range(len(data_arrays)):
         if write_block(i + 10, data_arrays[i]) == -1:
             return -1
-    for i in range(len(data_arrays)+1,len(data_arrays)+9):   #formatting 8 Blocks so no old data gets mixed up
+
+    #formatting 8 Blocks after Data so no old data gets mixed up
+    for i in range(len(data_arrays),len(data_arrays)+9):
         if write_block(i + 10, bytearray(4)) == -1:
             return -1
 
