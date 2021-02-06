@@ -31,12 +31,14 @@ def wait_for_uid():
     str_uid = ''.join(format(x, '0x') for x in uid)
     return uid, str_uid
 
+
 def check_once(timeout):
     uid = pn532.read_passive_target(timeout=timeout)
     if uid is not None:
         str_uid = ''.join(format(x, '0x') for x in uid)
         return uid, str_uid
     return -1, -1
+
 
 def RFID_read(block):
     data = pn532.ntag2xx_read_block(block)
@@ -55,9 +57,6 @@ def read_uri(uid):
         else:
             data_arrays.append(array)
 
-         
-    
-
 
 def write_block(block, data):
     if pn532.ntag2xx_write_block(block, data) is False:
@@ -70,7 +69,11 @@ if __name__ == "__main__":
         print("Scan and hold the card you want to learn now.")
         uid, str_uid = wait_for_uid()
         print("UID-Found:{}".format(uid))
-        print(read_uri(uid))
+        uri = read_uri(uid)
+        if uri == '':
+            print("Card empty.")
+        else:
+            print(uri)
         
         
         
