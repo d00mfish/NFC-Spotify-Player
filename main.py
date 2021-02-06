@@ -20,8 +20,8 @@ def main():
         if str_uid == spotify.device_card_uid:
             device_id, device_name = spotify.current_device()
             if device_id != -1:  # set device id if id sucessfull retrieved
-                spotify.set_config_value('AUTH','device_id',str(device_id))
-                print("Set {} as new device.".format(device_name))
+                spotify.set_config_value('DEVICE','device_id',str(device_id))
+                print("Set {} as new device. ID:{}".format(device_name, device_id))
                 time.sleep(2)
                 continue
             print("No playback detected, can't set device.")
@@ -88,7 +88,6 @@ def write_card():
     
     for i in range(len(data_arrays)):
         if rfid.write_block(i+10, data_arrays[i]) == -1:
-            print("Something went wrong writing.")
             return -1
             
     print("Successfully leaned!")
