@@ -44,7 +44,7 @@ def main():
             if spotify.play_context_URI(uri) == -1:  # play uri playlist at device
                 print(
                     "Current device unavailable, please select an available device."
-                )  # maybe use fallback device afterwards?
+                )  # maybe use fallback device?
                 print(
                     "This can happen if you use a Phone or PC that is not always online."
                 )
@@ -89,12 +89,12 @@ def write_card():
 
 
 if __name__ == "__main__":
-    while(True):
+    while True:
         try:
             main()
         except:
             print("CRASHED! Restarting in 10 seconds")
-            #led rot an
+            # led rot an
             sleep(5)
-            #led rot aus
+            # led rot aus
             sleep(5)
