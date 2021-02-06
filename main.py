@@ -89,11 +89,12 @@ def write_card():
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except:
-        print("CRASHED! Restarting in 10 seconds")
-        #led rot an
-        sleep(5)
-        #led rot aus
-        sleep(5)
+    while(True):
+        try:
+            main()
+        except:
+            print("CRASHED! Restarting in 10 seconds")
+            #led rot an
+            sleep(5)
+            #led rot aus
+            sleep(5)
