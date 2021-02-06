@@ -17,12 +17,19 @@ pn532.listen_for_passive_target()
 
 def wait_for_uid():
     print("Waiting for RFID Signal...")
-    uid = pn532.read_passive_target(timeout=10)
+    uid = pn532.read_passive_target(timeout=0.5)
     while(uid is None):
-        uid = pn532.read_passive_target(timeout=10)
+        uid = pn532.read_passive_target(timeout=0.5)
         print(".", end='')
     str_uid = ''.join(format(x, '0x') for x in uid)
     return uid, str_uid
+
+def check_once(timeout):
+    uid = pn532.read_passive_target(timeout=timeout)
+    if uid is not None:
+        str_uid = ''.join(format(x, '0x') for x in uid)
+        return uid, str_uid
+    return -1, -1
 
 
 def look_for_URI(hexstring: str):
@@ -68,11 +75,12 @@ def learn_card(current_playback):
             print(">Scanned card was not the learn-card.")
             print(">Aborting Learning.")
             return -1
+
         elif str_tmp == learn_card_uid:
             # Save UID and URI in CSV
             if look_for_URI(uid) == -1:  #test if UID already in use
                 line = uid + ";" + uri + '\n'
-                with open('connections.csv', 'a') as f:
+                with open('connections.csv', 'a+') as f:
                     f.write(line)
                 print("Successfully leaned!")
                 # LED 2sec green
@@ -89,38 +97,7 @@ def learn_card(current_playback):
 if __name__ == "__main__":
 
     while(1):
-        print("Scan and hold the card you want to learn now.")
+        print("Wait for RFID Signal...")
         uid = wait_for_uid()
         print("UID-Found:{}".format(uid))
-        time.sleep(5)
-
-
-
-
-
-
-
-
-    '''
-    while(1):
-        uid = pn532.read_passive_target(timeout=0.5)
-        if uid is None:
-            continue
-        else:
-            print(uid)
-    '''
-
-
-''' Only used for testing
-def RFID_read_test(uidlenght=4):
-    try:
-        import random
-    except ImportError:
-        pass
-
-    if uidlenght == 0:
-        uid = None
-    else:
-        uid = bytearray([random.randint(0, 255) for _ in range(uidlenght)])
-    return uid
-'''
+        time.sleep(3)

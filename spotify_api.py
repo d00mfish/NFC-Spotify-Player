@@ -10,8 +10,6 @@ device_card_uid = config['UIDS']['device_card_uid']
 learn_card_uid = config['UIDS']['learn_card_uid']
 default_volume = int(config['DEVICE']['default_volume'])
 
-#auth = SpotifyOAuth(client_id, client_secret, redirect_uri, scope)
-#sp = spotipy.Spotify(auth_manager=auth)
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=config['AUTH']['client_id'],
                                                client_secret=config['AUTH']['client_secret'],
                                                redirect_uri=config['AUTH']['redirect_uri'],

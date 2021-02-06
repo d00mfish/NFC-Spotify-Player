@@ -1,15 +1,22 @@
 import time
 import rfid_com as rfid
 import spotify_api as spotify
+import hw_com as gpio
 
 
 print("Scan the learn-card to add a Playlist to the system.")
 print("Scan the setup-card to assign the current playing device as default.")
 
 while(True):
-    uid, str_uid = rfid.wait_for_uid()
-    #get_shuffle_state()
+    uid, str_uid = rfid.check_once(0.5)
+    gpio.set_shuffle_led(spotify.get_shuffle_state)
 
+
+
+
+
+    if uid == -1:
+        continue
     
     #Device Learning
     if str_uid == spotify.device_card_uid:
