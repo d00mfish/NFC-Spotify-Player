@@ -37,7 +37,7 @@ def main():
         else:
             uri = rfid.read_uri(uid)
             if uri == -1:
-                print("Problem while reading. Make sure you already added this Card.")
+                print("Make sure you already added this Card.")
                 time.sleep(1)
                 continue
             

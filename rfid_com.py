@@ -48,13 +48,24 @@ def RFID_read(block):
 
 def read_uri(uid):
     data_arrays = []
+    str_uid = ''
     #while(data_arrays[-1] != bytearray(4)):
     for i in range(10, 31):
         array = RFID_read(i)
         if array == bytearray(4):
-            return ''.join([x.decode('utf-8').strip('\x00') for x in data_arrays])
+            str_uid = ''.join([x.decode('utf-8').strip('\x00') for x in data_arrays])
+            break
+        elif array == -1:
+            print("Card reading Error!")
+            return -1
         else:
             data_arrays.append(array)
+
+    if str_uid == '':
+        print("Card empty.")
+        return -1
+    else:
+        return str_uid
 
 
 def write_block(block, data):
