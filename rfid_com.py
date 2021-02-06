@@ -70,14 +70,16 @@ def write_block(block, data):
 def write_uri(uri):
     # preparing uri into byte arrays
     parts = [uri[i : i + 4] for i in range(0, len(uri), 4)]
-    # print("Number of Parts: {}".format(len(parts)))
+    print("Number of Blocks: {}".format(len(parts)))
     # making bytearrays with 16bytes of size, no matter what
     data_arrays = [bytearray(i, "utf-8") + bytearray(4 - len(i)) for i in parts]
 
     for i in range(len(data_arrays)):
         if write_block(i + 10, data_arrays[i]) == -1:
             return -1
-
+    for i in range(len(data_arrays)+1,len(data_arrays)+9):   #formatting 8 Blocks so no old data gets mixed up
+        if write_block(i + 10, bytearray(4)) == -1:
+            return -1
 
 if __name__ == "__main__":
 
