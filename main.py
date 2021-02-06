@@ -81,7 +81,7 @@ def write_card():
 
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
-    uid, str_uid = spotify.wait_for_uid()
+    str_uid = rfid.wait_for_uid()[1]
     if str_uid == spotify.learn_card_uid or str_uid == spotify.device_card_uid:
         print("Can't write uri to learn or device card. Arborting!")
         return -1
