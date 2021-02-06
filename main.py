@@ -7,6 +7,7 @@ print("Scan the learn-card to add a Playlist to the system.")
 print("Scan the setup-card to assign the current playing device as default.")
 
 def main():
+    print("Waiting for RFID Signal...")
     while(True):
         uid, str_uid = rfid.check_once(0.5)#timeout controlls refresh time for loop
         #get_shuffle_state()

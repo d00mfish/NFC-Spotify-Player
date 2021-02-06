@@ -23,7 +23,6 @@ read_key = 'A'
 
 
 def wait_for_uid():
-    print("Waiting for RFID Signal...")
     uid = pn532.read_passive_target(timeout=10)
     while(uid is None):
         uid = pn532.read_passive_target(timeout=10)
