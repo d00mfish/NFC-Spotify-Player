@@ -1,6 +1,7 @@
 from time import sleep
 import rfid_com as rfid
 import spotify_api as spotify
+import hw_com as gpio
 
 
 print("Scan the learn-card to add a Playlist to the system.")
@@ -10,8 +11,9 @@ print("Scan the setup-card to assign the current playing device as default.")
 def main():
     print("Waiting for RFID Signal...")
     while True:
-        uid, str_uid = rfid.check_once(0.5)  # timeout controlls refresh time for loop
-        # get_shuffle_state()
+        uid, str_uid = rfid.check_once(20)  # timeout controlls refresh time for loop
+
+        gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
         if uid == -1:
             continue
 
@@ -86,6 +88,21 @@ def write_card():
         return -1
 
     print("Successfully leaned!")
+
+
+def shuffle_press(channel):
+    state = spotify.get_shuffle_state
+    if state is False:
+        new = True
+    elif state is True:
+        new = False
+    else:
+        return -1
+    spotify.set_shuffle(new)
+    
+
+def playpause_press(channel):   #currently only pauses
+    spotify.pause()
 
 
 if __name__ == "__main__":

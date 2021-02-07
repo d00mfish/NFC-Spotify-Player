@@ -30,7 +30,6 @@ def current_playback():
     else:
         return -1
 
-
 def current_device():   #returns two values, the id and name if there is a device currently playing
     data = sp.current_playback()
     if data != None:
@@ -41,6 +40,16 @@ def current_device():   #returns two values, the id and name if there is a devic
 def check_available(d_id):
     return d_id in [device['id'] for device in sp.devices()['devices']]
 
+def get_shuffle_state():  #Needs a list of params
+    playback = sp.current_playback()
+    if playback != None:
+        return playback['shuffle_state']
+    else:
+        return -1
+
+def get_playpause_state():
+    return
+
 def set_config_value(category: str, valname: str, value):
     config.set(category, valname, value)
     with open('config.cfg', 'w') as configfile:
@@ -48,8 +57,8 @@ def set_config_value(category: str, valname: str, value):
         configfile.close()
         
 
-def shuffle_on():
-    sp.shuffle(state=True, device_id=config['DEVICE']['device_id'])
+def set_shuffle(state: bool):
+    sp.shuffle(state=state, device_id=config['DEVICE']['device_id'])
 
 def set_volume(value: int):
     sp.volume(device_id=config['DEVICE']['device_id'],volume_percent=value)
