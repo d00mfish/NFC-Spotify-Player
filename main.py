@@ -23,15 +23,18 @@ def main():
             if device_id != -1:  # set device id if id sucessfull retrieved
                 spotify.set_config_value("DEVICE", "device_id", str(device_id))
                 print("Set {} as new device. ID:{}".format(device_name, device_id))
+                gpio.blink_ok()
                 sleep(2)
                 continue
             print("No playback detected, can't set device.")
+            gpio.blink_error()
             sleep(2)
 
         # Starting Card-Writing
         elif str_uid == spotify.learn_card_uid:
             if write_card() == -1:
                 print("Something went wrong writing the new Music-Card.")
+                gpio.blink_error()
             sleep(2)
 
         # read data and play
@@ -39,11 +42,13 @@ def main():
             uri = rfid.read_uri(uid)
             if uri == -1:
                 print("Make sure you already added this Card.")
+                gpio.blink_error()
                 sleep(1)
                 continue
 
             print("Found Music-Card.")
             if spotify.play_context_URI(uri) == -1:  # play uri playlist at device
+                gpio.blink_error()
                 print(
                     "Current device unavailable, please select an available device."
                 )  # maybe use fallback device?
@@ -54,6 +59,7 @@ def main():
                 continue
 
             print("Playing now!")
+            gpio.blink_ok()
             sleep(1)
 
 
@@ -88,7 +94,7 @@ def write_card():
         return -1
 
     print("Successfully leaned!")
-
+    gpio.blink_ok()
 
 def shuffle_press(channel):
     state = spotify.get_shuffle_state()
