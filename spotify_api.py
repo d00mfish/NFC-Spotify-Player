@@ -33,7 +33,7 @@ def current_playback():
 def current_device():   #returns two values, the id and name if there is a device currently playing
     data = sp.current_playback()
     if data != None:
-        return data['device']['id'], data['device']['name']
+        return data['device']['id'], data['device']['name'] q 
     else:
         return -1, -1
     
@@ -61,12 +61,6 @@ def set_config_value(category: str, valname: str, value):
 
 def set_volume(value: int):
     sp.volume(device_id=config['DEVICE']['device_id'],volume_percent=value)
-
-def pause():
-    sp.pause_playback(device_id=config['DEVICE']['device_id'])
-
-def skip():
-    sp.next_track(device_id=config['DEVICE']['device_id'])
 
 
 def play_context_URI(uri: str):

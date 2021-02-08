@@ -115,10 +115,10 @@ def shuffle_press(channel):
     
 
 def playpause_press(channel):   #currently only pauses
-    print("Pause Press.")
-    spotify.pause()
+    spotify.sp.pause_playback()
 
 def skip_press(channel):
+    spotify.sp.next_track()
     return 
 
 

@@ -32,12 +32,14 @@ GPIO.output(playpause_led, 0)
 v1 = GPIO.add_event_detect(shuffle_in, GPIO.FALLING, 
     callback=main.shuffle_press, bouncetime=600)
 v2 = GPIO.add_event_detect(playpause_in, GPIO.FALLING, 
-        callback=main.playpause_press, bouncetime=600)
+        callback=main.skip_press, bouncetime=600)
 
 def set_button_led(channel: int, state):
         GPIO.output(channel, state)
         
 def blink_error():
+    shuffle_before = GPIO.input(shuffle_led)
+    playpause_before = GPIO.input(playpause_led)
     for _ in range(4):
         #GPIO.GPIO.output(R_led, True)
         set_button_led(playpause_led, True)
@@ -47,8 +49,12 @@ def blink_error():
         set_button_led(playpause_led, False)
         set_button_led(shuffle_led, False)
         sleep(0.6)
+    set_button_led(playpause_led, playpause_before)
+    set_button_led(shuffle_led, shuffle_before)
 
 def blink_ok():
+    shuffle_before = GPIO.input(shuffle_led)
+    playpause_before = GPIO.input(playpause_led)
     for _ in range(2):
         #GPIO.GPIO.output(R_led, True)
         set_button_led(playpause_led, True)
@@ -58,3 +64,5 @@ def blink_ok():
         set_button_led(playpause_led, False)
         set_button_led(shuffle_led, False)
         sleep(0.2)
+    set_button_led(playpause_led, playpause_before)
+    set_button_led(shuffle_led, shuffle_before)
