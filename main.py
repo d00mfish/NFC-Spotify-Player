@@ -4,12 +4,11 @@ import spotify_api as spotify
 import hw_com as gpio
 
 
-print("Scan the learn-card to add a Playlist to the system.")
-print("Scan the setup-card to assign the current playing device as default.")
-
-
 def main():
     refresh_shuffle_led()
+    print("Scan the learn-card to add a Playlist to the system.")
+    print("Scan the setup-card to assign the current playing device as default.")
+    sleep(0.5)
     print("Waiting for RFID Signal...")
     while True:
         uid, str_uid = rfid.check_once(10)  # timeout controlls refresh time for e.g. shuffle refresh
