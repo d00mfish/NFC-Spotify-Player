@@ -45,7 +45,7 @@ def get_shuffle_state():  #Needs a list of params
     if playback != None:
         return playback['shuffle_state']
     else:
-        raise Exception("shuffle_state returned invalid value")
+        return -1
 
 def set_shuffle_state(state: bool):
     sp.shuffle(state=state)
@@ -93,3 +93,4 @@ def play_URIs(uris: list):
 
 if __name__ == "__main__":
     sp.me()
+    print(get_shuffle_state())

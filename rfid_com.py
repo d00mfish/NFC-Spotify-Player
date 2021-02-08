@@ -87,9 +87,9 @@ def write_uri(uri):
 if __name__ == "__main__":
 
     while 1:
-        print("Scan and hold the card you want to learn now.")
+        print("Scan and hold the card now.")
         uid, str_uid = wait_for_uid()
-        print("UID-Found:{}".format(uid))
+        print("UID-Found:{}".format(str_uid))
         uri = read_uri(uid)
         if uri == "":
             print("Card empty.")
