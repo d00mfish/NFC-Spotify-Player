@@ -92,5 +92,4 @@ def play_URIs(uris: list):
 
 
 if __name__ == "__main__":
-    sp.me()
-    print(get_shuffle_state())
+    print(sp.me())
