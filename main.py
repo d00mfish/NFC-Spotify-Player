@@ -135,3 +135,5 @@ if __name__ == "__main__":
                 gpio.set_button_led(gpio.shuffle_led, True)
                 # led rot aus
                 sleep(0.5)
+            gpio.set_button_led(gpio.playpause_led, False)
+            gpio.set_button_led(gpio.shuffle_led, False)
