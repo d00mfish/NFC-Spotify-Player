@@ -103,13 +103,15 @@ def shuffle_press(channel):
     state = spotify.get_shuffle_state()
     if state is False:
         new = True
+        gpio.set_button_led(gpio.shuffle_led, 1)
     elif state is True:
         new = False
+        gpio.set_button_led(gpio.shuffle_led, 0)
     else:
         return -1
     spotify.set_shuffle_state(new)
     sleep(0.7)
-    gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
+    #gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
     
 
 def playpause_press(channel):   #currently only pauses
