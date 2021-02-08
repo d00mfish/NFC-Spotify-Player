@@ -45,7 +45,7 @@ def blink_error():
         sleep(0.6)
 
 def blink_ok():
-    for _ in range(1):
+    for _ in range(2):
         #GPIO.GPIO.output(R_led, True)
         set_button_led(playpause_led, True)
         set_button_led(shuffle_led, True)
