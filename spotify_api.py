@@ -75,10 +75,10 @@ def play_context_URI(uri: str):
     elif current[0] != config['DEVICE']['device_id']:#means current playback on other device
         #Workaround for permission problems when other device is currently in playback
         sp.transfer_playback(config['DEVICE']['device_id'], force_play=False)
-        time.sleep(0.7)
+        time.sleep(2)
         sp.pause_playback()
         set_volume(default_volume)
-        time.sleep(0.7)
+        time.sleep(2)
         
     if check_available(config['DEVICE']['device_id']):#check if device is even online for playback
         sp.start_playback(device_id=config['DEVICE']['device_id'], context_uri=uri)
