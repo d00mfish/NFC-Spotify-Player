@@ -82,6 +82,7 @@ def write_card():
     print("Playing a playlist containing: {}, by {}.".format(current[1], current[2]))
     uri = current[0]
 
+    sleep(2)
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
     str_uid = rfid.wait_for_uid()[1]
