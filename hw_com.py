@@ -23,6 +23,10 @@ GPIO.setup([shuffle_led,playpause_led], GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup([R_led, G_led, B_led], GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup([shuffle_in,playpause_in], GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
+#Reset LEDs
+GPIO.output(shuffle_led, 0)
+GPIO.output(playpause_led, 0)
+
 v1 = GPIO.add_event_detect(shuffle_in, GPIO.FALLING, 
     callback=main.shuffle_press, bouncetime=600)
 v2 = GPIO.add_event_detect(playpause_in, GPIO.FALLING, 
