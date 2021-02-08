@@ -99,6 +99,7 @@ def shuffle_press(channel):
     else:
         return -1
     spotify.set_shuffle(new)
+    sleep(0.7)
     gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
     
 
@@ -112,7 +113,8 @@ if __name__ == "__main__":
             main()
         except:
             print("CRASHED! Restarting in 10 seconds")
-            # led rot an
-            sleep(5)
-            # led rot aus
-            sleep(5)
+            for i in range(10):
+                # led rot an
+                sleep(0.5)
+                # led rot aus
+                sleep(0.5)
