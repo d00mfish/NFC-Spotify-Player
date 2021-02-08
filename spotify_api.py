@@ -47,6 +47,9 @@ def get_shuffle_state():  #Needs a list of params
     else:
         return -1
 
+def set_shuffle(state: bool):
+    sp.shuffle(state=state, device_id=config['DEVICE']['device_id'])
+
 def get_playpause_state():
     return
 
@@ -55,10 +58,6 @@ def set_config_value(category: str, valname: str, value):
     with open('config.cfg', 'w') as configfile:
         config.write(configfile)
         configfile.close()
-        
-
-def set_shuffle(state: bool):
-    sp.shuffle(state=state, device_id=config['DEVICE']['device_id'])
 
 def set_volume(value: int):
     sp.volume(device_id=config['DEVICE']['device_id'],volume_percent=value)
@@ -88,7 +87,6 @@ def play_context_URI(uri: str):
         time.sleep(0.3)
         
     if check_available(config['DEVICE']['device_id']):#check if device is even online for playback
-        shuffle_on()#for now
         sp.start_playback(device_id=config['DEVICE']['device_id'], context_uri=uri)
     else:
         return -1
