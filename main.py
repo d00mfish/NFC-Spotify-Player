@@ -108,7 +108,8 @@ def playpause_press(channel):   #currently only pauses
     print("Pause Press.")
     spotify.pause()
 
-def skip_press(channel)
+def skip_press(channel):
+    return 
 
 
 if __name__ == "__main__":
