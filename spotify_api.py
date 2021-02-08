@@ -50,7 +50,7 @@ def get_shuffle_state():  #Needs a list of params
 def set_shuffle_state(state: bool):
     sp.shuffle(state=state)
 
-def get_playpause_state():
+def get_playpause_state():#dont know how :(
     return
 
 def set_config_value(category: str, valname: str, value):
@@ -69,16 +69,16 @@ def play_context_URI(uri: str):
     if current == -1:#means no playback
         #Workaround for permission problems when old playback was on other device
         sp.transfer_playback(config['DEVICE']['device_id'], force_play=False)
-        time.sleep(0.5)
+        time.sleep(0.7)
         sp.pause_playback()
         set_volume(default_volume)
     elif current[0] != config['DEVICE']['device_id']:#means current playback on other device
         #Workaround for permission problems when other device is currently in playback
         sp.transfer_playback(config['DEVICE']['device_id'], force_play=False)
-        time.sleep(0.4)
+        time.sleep(0.7)
         sp.pause_playback()
         set_volume(default_volume)
-        time.sleep(0.3)
+        time.sleep(0.7)
         
     if check_available(config['DEVICE']['device_id']):#check if device is even online for playback
         sp.start_playback(device_id=config['DEVICE']['device_id'], context_uri=uri)
