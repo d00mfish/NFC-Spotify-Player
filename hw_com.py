@@ -30,9 +30,9 @@ GPIO.output(skip_led, 0)
 
 #Interrupt listener init
 v1 = GPIO.add_event_detect(shuffle_in, GPIO.FALLING, 
-    callback=main.shuffle_press, bouncetime=600)
+    callback=main.shuffle_press, bouncetime=1000)
 v2 = GPIO.add_event_detect(playpause_in, GPIO.FALLING, 
-        callback=main.skip_press, bouncetime=600)
+        callback=main.skip_press, bouncetime=1000)
 
 def set_button_led(channel: int, state):
         GPIO.output(channel, state)
