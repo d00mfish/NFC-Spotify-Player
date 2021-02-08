@@ -47,8 +47,8 @@ def get_shuffle_state():  #Needs a list of params
     else:
         return -1
 
-def set_shuffle(state: bool):
-    sp.shuffle(state=state, device_id=config['DEVICE']['device_id'])
+def set_shuffle_state(state: bool):
+    sp.shuffle(state=state)
 
 def get_playpause_state():
     return

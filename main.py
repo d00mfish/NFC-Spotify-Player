@@ -91,7 +91,6 @@ def write_card():
 
 
 def shuffle_press(channel):
-    print("Shuffle Press.")
     state = spotify.get_shuffle_state()
     if state is False:
         new = True
@@ -99,7 +98,7 @@ def shuffle_press(channel):
         new = False
     else:
         return -1
-    spotify.set_shuffle(new)
+    spotify.set_shuffle_state(new)
     sleep(0.7)
     gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
     
@@ -120,8 +119,10 @@ if __name__ == "__main__":
             print("CRASHED! Restarting in 10 seconds")
             for i in range(10):
                 gpio.set_button_led(gpio.playpause_led, True)
+                gpio.set_button_led(gpio.shuffle_led, False)
                 # led rot an
                 sleep(0.5)
                 gpio.set_button_led(gpio.playpause_led, False)
+                gpio.set_button_led(gpio.shuffle_led, True)
                 # led rot aus
                 sleep(0.5)

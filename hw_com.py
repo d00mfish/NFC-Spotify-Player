@@ -34,15 +34,23 @@ def set_button_led(channel: int, state):
         GPIO.output(channel, state)
         
 def blink_error():
-    for _ in range(3):
-        GPIO.GPIO.output(R_led, True)
-        sleep(0.5)
-        GPIO.GPIO.output(R_led, False)
-        sleep(0.5)
+    for _ in range(4):
+        #GPIO.GPIO.output(R_led, True)
+        set_button_led(playpause_led, True)
+        set_button_led(shuffle_led, True)
+        sleep(0.6)
+        #GPIO.GPIO.output(R_led, False)
+        set_button_led(playpause_led, False)
+        set_button_led(shuffle_led, False)
+        sleep(0.6)
 
 def blink_ok():
-    for _ in range(2):
-        GPIO.GPIO.output(G_led, True)
-        sleep(0.1)
-        GPIO.GPIO.output(G_led, False)
-        sleep(0.1)
+    for _ in range(1):
+        #GPIO.GPIO.output(R_led, True)
+        set_button_led(playpause_led, True)
+        set_button_led(shuffle_led, True)
+        sleep(0.2)
+        #GPIO.GPIO.output(R_led, False)
+        set_button_led(playpause_led, False)
+        set_button_led(shuffle_led, False)
+        sleep(0.2)
