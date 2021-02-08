@@ -110,7 +110,7 @@ def shuffle_press(channel):
     else:
         return -1
     spotify.set_shuffle_state(new)
-    sleep(0.7)
+    #sleep(0.7)
     #gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
     
 

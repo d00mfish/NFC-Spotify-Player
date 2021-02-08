@@ -18,21 +18,21 @@ G_led = 27
 B_led = 22
 # config['PINS'][R_led], config['PINS'][G_led],config['PINS'][B_led]
 
+#Button setup and inizialisation
 GPIO.setmode(GPIO.BCM)
-GPIO.setup([shuffle_led,playpause_led], GPIO.OUT, initial=GPIO.LOW)
-GPIO.setup([R_led, G_led, B_led], GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup([shuffle_led,playpause_led], GPIO.OUT)
+GPIO.setup([R_led, G_led, B_led], GPIO.OUT)
 GPIO.setup([shuffle_in,playpause_in], GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
 #Reset LEDs
 GPIO.output(shuffle_led, 0)
 GPIO.output(playpause_led, 0)
 
+#Interrupt listener init
 v1 = GPIO.add_event_detect(shuffle_in, GPIO.FALLING, 
     callback=main.shuffle_press, bouncetime=600)
 v2 = GPIO.add_event_detect(playpause_in, GPIO.FALLING, 
         callback=main.playpause_press, bouncetime=600)
-#Button setup and inizialisation
-
 
 def set_button_led(channel: int, state):
         GPIO.output(channel, state)

@@ -45,7 +45,7 @@ def get_shuffle_state():  #Needs a list of params
     if playback != None:
         return playback['shuffle_state']
     else:
-        return -1
+        raise Exception("shuffle_state returned invalid value")
 
 def set_shuffle_state(state: bool):
     sp.shuffle(state=state)
