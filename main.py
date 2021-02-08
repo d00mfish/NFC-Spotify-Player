@@ -11,7 +11,7 @@ print("Scan the setup-card to assign the current playing device as default.")
 def main():
     print("Waiting for RFID Signal...")
     while True:
-        uid, str_uid = rfid.check_once(20)  # timeout controlls refresh time for e.g. shuffle refresh
+        uid, str_uid = rfid.check_once(10)  # timeout controlls refresh time for e.g. shuffle refresh
 
         gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
         if uid == -1:
