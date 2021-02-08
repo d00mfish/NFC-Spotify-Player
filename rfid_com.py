@@ -12,7 +12,7 @@ cs_pin = DigitalInOut(board.D5)
 pn532 = PN532_SPI(spi, cs_pin, debug=False)
 ic, ver, rev, support = pn532.firmware_version
 print("Found PN532 with firmware version: {0}.{1}".format(ver, rev))
-pn532.SAM_configuration()
+#pn532.SAM_configuration()
 pn532.listen_for_passive_target()
 
 
