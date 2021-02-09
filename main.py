@@ -1,19 +1,28 @@
-from time import sleep
+from time import sleep, time
 import rfid_com as rfid
 import spotify_api as spotify
 import hw_com as gpio
+import threading
+
+
+tmp_vol = 50
+volume = 50
+playstate = False  # Needed because play/pause state can't be read reliably
 
 
 def main():
+    global playstate, volume
     refresh_shuffle_led()
+    volume = spotify.get_volume()
     print("Scan the learn-card to add a Playlist to the system.")
     print("Scan the setup-card to assign the current playing device as default.")
     sleep(0.5)
     print("Waiting for RFID Signal...")
     while True:
-        uid, str_uid = rfid.check_once(10)  # timeout controlls refresh time for e.g. shuffle refresh
+        uid, str_uid = rfid.check_once(10)
+        # timeout controlls refresh time for e.g. shuffle refresh
         refresh_shuffle_led()
-        
+
         if uid == -1:
             continue
 
@@ -59,6 +68,7 @@ def main():
                 continue
 
             print("Playing now!")
+            playstate = True
             gpio.blink_ok()
             sleep(1)
 
@@ -99,39 +109,83 @@ def write_card():
     print("Successfully leaned!")
     gpio.blink_ok()
 
+
 def shuffle_press(channel):
     state = spotify.get_shuffle_state()
     if state is False:
-        new = True
+        new_state = True
         gpio.set_button_led(gpio.shuffle_led, 1)
     elif state is True:
-        new = False
+        new_state = False
         gpio.set_button_led(gpio.shuffle_led, 0)
     else:
         return -1
-    spotify.set_shuffle_state(new)
-    #sleep(0.7)
-    #gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
-    
+    spotify.set_shuffle_state(new_state)
+    # sleep(0.7)
+    # gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
 
-def playpause_press(channel):   #currently only pauses
-    spotify.sp.pause_playback()
+
+def playpause_press(channel):  # currently only pauses
+    global playstate
+    if playstate:  # dont know how :(
+        spotify.sp.pause_playback()
+        playstate = False
+    else:
+        spotify.sp.start_playback()
+        playstate = True
+
 
 def skip_press(channel):
     spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, 1)
     sleep(0.2)
     gpio.set_button_led(gpio.skip_led, 0)
-    return 
+    return
+
 
 def refresh_shuffle_led():
     gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
 
 
+def volume_thread():
+    global tmp_vol, volume
+
+    # if volume != tmp_vol:
+    start = time()
+
+    shuffle_before = gpio.get_button_led_state(gpio.shuffle_led)
+    playpause_before = gpio.get_button_led_state(gpio.skip_led)
+    gpio.set_button_led(gpio.skip_led, False)
+    gpio.set_button_led(gpio.shuffle_led, False)
+
+    prev_vol = volume
+    while True:
+        elapsed = time() - start
+        if volume != prev_vol:
+            start = time()
+            prev_vol = volume
+        elif elapsed > 2:
+            spotify.set_volume(volume)
+            break
+
+        if volume > 33:
+            gpio.set_button_led(gpio.skip_led, True)
+            gpio.set_button_led(gpio.shuffle_led, False)
+        elif volume < 66:
+            gpio.set_button_led(gpio.skip_led, True)
+            gpio.set_button_led(gpio.shuffle_led, True)
+
+    gpio.set_button_led(gpio.skip_led, playpause_before)
+    gpio.set_button_led(gpio.shuffle_led, shuffle_before)
+
+
+volume_thread = threading.Thread(target=volume_thread)
+
 
 if __name__ == "__main__":
+
     while True:
-        try:       
+        try:
             main()
         except:
             print("CRASHED! Restarting in 10 seconds")
