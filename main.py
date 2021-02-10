@@ -7,6 +7,7 @@ import threading
 
 tmp_vol = 50
 volume = 50
+vol_thread_active = False
 playstate = False  # Needed because play/pause state can't be read reliably
 
 
@@ -148,8 +149,8 @@ def refresh_shuffle_led():
 
 
 def volume_thread():
-    global tmp_vol, volume
-
+    global tmp_vol, volume, vol_thread_active
+    vol_thread_active = True
     # if volume != tmp_vol:
     start = time()
 
@@ -160,14 +161,8 @@ def volume_thread():
 
     prev_vol = volume
     while True:
+        sleep(0.1)
         elapsed = time() - start
-        if volume != prev_vol:
-            start = time()
-            prev_vol = volume
-        elif elapsed > 2:
-            spotify.set_volume(volume)
-            break
-
         if volume > 33:
             gpio.set_button_led(gpio.skip_led, True)
             gpio.set_button_led(gpio.shuffle_led, False)
@@ -175,11 +170,15 @@ def volume_thread():
             gpio.set_button_led(gpio.skip_led, True)
             gpio.set_button_led(gpio.shuffle_led, True)
 
-    gpio.set_button_led(gpio.skip_led, playpause_before)
-    gpio.set_button_led(gpio.shuffle_led, shuffle_before)
-
-
-volume_thread = threading.Thread(target=volume_thread)
+        if volume != prev_vol:
+            start = time()
+            prev_vol = volume
+        elif elapsed > 1:
+            spotify.set_volume(volume)
+            vol_thread_active = False
+            gpio.set_button_led(gpio.skip_led, playpause_before)
+            gpio.set_button_led(gpio.shuffle_led, shuffle_before)
+            return
 
 
 if __name__ == "__main__":

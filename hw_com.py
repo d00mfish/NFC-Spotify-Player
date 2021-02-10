@@ -37,8 +37,8 @@ GPIO.add_event_detect(
 # =====Rotary setup and inizialisation=====
 def volume_callback(scale_position):
     main.volume = scale_position
-    if not main.volume_thread.is_alive():
-        main.volume_thread.start()
+    if not main.vol_thread_active:
+        threading.Thread(target=main.volume_thread)
 
 rotary_encoder = pyky040.Endcoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
