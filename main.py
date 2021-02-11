@@ -148,8 +148,8 @@ def volume_thread():
     # if volume != tmp_vol:
     start = time()
 
-    shuffle_before = gpio.get_button_led_state(gpio.shuffle_led)
-    playpause_before = gpio.get_button_led_state(gpio.skip_led)
+    shuffle_before = gpio.GPIO.input(gpio.shuffle_led)
+    playpause_before = gpio.GPIO.input(gpio.skip_led)
     gpio.set_button_led(gpio.skip_led, False)
     gpio.set_button_led(gpio.shuffle_led, False)
 
@@ -177,7 +177,7 @@ def volume_thread():
 
 
 if __name__ == "__main__":
-
+    print("Rotary Thread is alive: ",gpio.rotary_thread.is_alive())
     while True:
         try:
             main()

@@ -46,23 +46,18 @@ rotary_thread = threading.Thread(target=rotary_encoder.watch)
 rotary_thread.start()
 
 
+# =====Functions=====
 def set_button_led(channel: int, state):
     GPIO.output(channel, state)
 
 
-def get_button_led_state(channel: int):
-    return GPIO.input(channel)
-
-
 def blink_error():
-    shuffle_before = get_button_led_state(shuffle_led)
-    playpause_before = get_button_led_state(skip_led)
+    shuffle_before = GPIO.input(shuffle_led)
+    playpause_before = GPIO.input(skip_led)
     for _ in range(3):
-        # GPIO.GPIO.output(R_led, True)
         set_button_led(skip_led, True)
         set_button_led(shuffle_led, True)
         sleep(0.5)
-        # GPIO.GPIO.output(R_led, False)
         set_button_led(skip_led, False)
         set_button_led(shuffle_led, False)
         sleep(0.5)
@@ -71,14 +66,12 @@ def blink_error():
 
 
 def blink_ok():
-    shuffle_before = get_button_led_state(shuffle_led)
-    playpause_before = get_button_led_state(skip_led)
+    shuffle_before = GPIO.input(shuffle_led)
+    playpause_before = GPIO.input(skip_led)
     for _ in range(2):
-        # GPIO.GPIO.output(R_led, True)
         set_button_led(skip_led, True)
         set_button_led(shuffle_led, True)
         sleep(0.1)
-        # GPIO.GPIO.output(R_led, False)
         set_button_led(skip_led, False)
         set_button_led(shuffle_led, False)
         sleep(0.1)
