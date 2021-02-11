@@ -145,8 +145,6 @@ def refresh_shuffle_led():
 def volume_thread():
     global tmp_vol, volume, vol_thread_active
     vol_thread_active = True
-    print("Started Volume thread!")
-    # if volume != tmp_vol:
     start = time()
 
     shuffle_before = gpio.GPIO.input(gpio.shuffle_led)
@@ -171,12 +169,11 @@ def volume_thread():
         if volume != prev_vol:
             start = time()
             prev_vol = volume
-        elif elapsed > 1:
+        elif elapsed > 2:
             spotify.set_volume(volume)
             vol_thread_active = False
             gpio.set_button_led(gpio.skip_led, playpause_before)
             gpio.set_button_led(gpio.shuffle_led, shuffle_before)
-            print("Stopped Volume thread!")
             return
 
 
