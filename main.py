@@ -138,7 +138,8 @@ def skip_press(channel):
 
 
 def refresh_shuffle_led():
-    gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
+    if not vol_thread_active:
+        gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
 
 
 def volume_thread():
@@ -157,10 +158,13 @@ def volume_thread():
     while True:
         sleep(0.1)
         elapsed = time() - start
-        if volume > 33:
+        if volume < 33:
+            gpio.set_button_led(gpio.skip_led, False)
+            gpio.set_button_led(gpio.shuffle_led, False)
+        elif volume > 33 and volume < 66:
             gpio.set_button_led(gpio.skip_led, True)
             gpio.set_button_led(gpio.shuffle_led, False)
-        elif volume < 66:
+        elif volume > 66:
             gpio.set_button_led(gpio.skip_led, True)
             gpio.set_button_led(gpio.shuffle_led, True)
 
