@@ -10,6 +10,9 @@ device_card_uid = config["UIDS"]["device_card_uid"]
 learn_card_uid = config["UIDS"]["learn_card_uid"]
 default_volume = int(config["DEVICE"]["default_volume"])
 
+playstate = False  # Needed because play/pause state can't be read reliably
+
+
 # auth = SpotifyOAuth(client_id, client_secret, redirect_uri, scope)
 # sp = spotipy.Spotify(auth_manager=auth)
 sp = spotipy.Spotify(
@@ -78,6 +81,17 @@ def get_volume():
 
 def set_volume(value: int):
     sp.volume(volume_percent=value)
+
+def playpause():
+    global playstate
+    if playstate:  # dont know how :(
+        print("Pausing...")
+        sp.pause_playback(device_id=config["DEVICE"]["device_id"])
+        playstate = False
+    else:
+        print("Resuming...")
+        sp.start_playback(device_id=config["DEVICE"]["device_id"])
+        playstate = True
 
 
 def play_context_URI(uri: str):

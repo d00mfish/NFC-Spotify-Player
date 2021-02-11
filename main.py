@@ -8,7 +8,6 @@ import threading
 tmp_vol = 50
 volume = 50
 vol_thread_active = False
-playstate = False  # Needed because play/pause state can't be read reliably
 
 
 def main():
@@ -127,15 +126,7 @@ def shuffle_press(channel):
 
 
 def playpause_press(channel):  # currently only pauses
-    global playstate
-    if playstate:  # dont know how :(
-        print("Pausing...")
-        spotify.sp.pause_playback(device_id=spotify.config["DEVICE"]["device_id"])
-        playstate = False
-    else:
-        print("Resuming...")
-        spotify.sp.start_playback(device_id=spotify.config["DEVICE"]["device_id"])
-        playstate = True
+    spotify.playpause()
 
 
 def skip_press(channel):
