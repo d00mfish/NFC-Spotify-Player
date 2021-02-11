@@ -130,11 +130,11 @@ def playpause_press(channel):  # currently only pauses
     global playstate
     if playstate:  # dont know how :(
         print("Pausing...")
-        spotify.sp.pause_playback(device=spotify.config["DEVICE"]["device_id"])
+        spotify.sp.pause_playback(device_id=spotify.config["DEVICE"]["device_id"])
         playstate = False
     else:
         print("Resuming...")
-        spotify.sp.start_playback(device=spotify.config["DEVICE"]["device_id"])
+        spotify.sp.start_playback(device_id=spotify.config["DEVICE"]["device_id"])
         playstate = True
 
 
