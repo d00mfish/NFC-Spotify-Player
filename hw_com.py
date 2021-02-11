@@ -31,7 +31,7 @@ GPIO.add_event_detect(
 )
 GPIO.add_event_detect(skip_in, GPIO.FALLING, callback=main.skip_press, bouncetime=1000)
 GPIO.add_event_detect(
-    skip_in, GPIO.FALLING, callback=main.playpause_press, bouncetime=500
+    playpause_in, GPIO.FALLING, callback=main.playpause_press, bouncetime=500
 )
 
 # =====Rotary setup and inizialisation=====
