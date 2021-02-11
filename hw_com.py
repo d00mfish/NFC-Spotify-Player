@@ -9,13 +9,13 @@ from pyky040 import pyky040
 # =====Getting config values=====
 config = configparser.ConfigParser(allow_no_value=True)
 config.read("config.cfg")
-shuffle_led = config["PINS"]["shuffle_led"]
-skip_led = config["PINS"]["skip_led"]
-shuffle_in = config["PINS"]["shuffle_in"]
-skip_in = config["PINS"]["skip_in"]
-playpause_in = config["PINS"]["rotary_sw"]
-rotary_clk = config["PINS"]["rotary_clk"]
-rotary_dt = config["PINS"]["rotary_dt"]
+shuffle_led = int(config["PINS"]["shuffle_led"])
+skip_led = int(config["PINS"]["skip_led"])
+shuffle_in = int(config["PINS"]["shuffle_in"])
+skip_in = int(config["PINS"]["skip_in"])
+playpause_in = int(config["PINS"]["rotary_sw"])
+rotary_clk = int(config["PINS"]["rotary_clk"])
+rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
 GPIO.setmode(GPIO.BCM)
