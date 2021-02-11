@@ -5,13 +5,13 @@ import hw_com as gpio
 import threading
 
 
-tmp_vol = 50
-volume = 50
+volume = spotify.default_volume
+tmp_vol = volume
 vol_thread_active = False
 
 
 def main():
-    global playstate, volume
+    global volume
     refresh_shuffle_led()
     volume = spotify.get_volume()
     print("Scan the learn-card to add a Playlist to the system.")
