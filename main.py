@@ -129,10 +129,12 @@ def shuffle_press(channel):
 def playpause_press(channel):  # currently only pauses
     global playstate
     if playstate:  # dont know how :(
-        spotify.sp.pause_playback()
+        print("Pausing...")
+        spotify.sp.pause_playback(device=spotify.config["DEVICE"]["device_id"])
         playstate = False
     else:
-        spotify.sp.start_playback()
+        print("Resuming...")
+        spotify.sp.start_playback(device=spotify.config["DEVICE"]["device_id"])
         playstate = True
 
 
@@ -151,6 +153,7 @@ def refresh_shuffle_led():
 def volume_thread():
     global tmp_vol, volume, vol_thread_active
     vol_thread_active = True
+    print("Started Volume thread!")
     # if volume != tmp_vol:
     start = time()
 
@@ -178,6 +181,7 @@ def volume_thread():
             vol_thread_active = False
             gpio.set_button_led(gpio.skip_led, playpause_before)
             gpio.set_button_led(gpio.shuffle_led, shuffle_before)
+            print("Stopped Volume thread!")
             return
 
 
