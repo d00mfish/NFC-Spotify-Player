@@ -79,12 +79,14 @@ def get_volume():
     else:
         return -1
 
+
 def set_volume(value: int):
     sp.volume(volume_percent=value)
 
+
 def playpause():
     global playstate
-    if playstate:  # dont know how :(
+    if playstate is True:  # dont know how :(
         print("Pausing...")
         sp.pause_playback(device_id=config["DEVICE"]["device_id"])
         playstate = False
