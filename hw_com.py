@@ -54,7 +54,7 @@ rotary_thread.start()
 # =====Functions=====
 def set_button_led(channel: object, state: bool, speed_ms: int):
     if speed_ms == 0:
-        channel.set_duty_cycle(int(state))
+        channel.ChangeDutyCycle(int(state))
     elif state:
         low = 1
         high = 101
@@ -64,7 +64,7 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
         high = -1
         incr = -1
     for dc in (low, high, incr):
-        channel.set_duty_cycle(dc)
+        channel.ChangeDutyCycle(dc)
         sleep(speed_ms / 100 / 1000)
 
 
