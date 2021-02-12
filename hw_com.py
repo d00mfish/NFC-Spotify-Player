@@ -180,14 +180,17 @@ def set_led_dc(channel: object, dc):
 def blink_error():
     def blink_err_thread():
         shuffle_before = get_led_state(shuffle_led_pin)
-        playpause_before = get_led_state(skip_led_pin)
+        skip_before = get_led_state(skip_led_pin)
         for _ in range(3):
             set_button_led(skip_led, False,500)
             sleep(0.2)
             set_button_led(shuffle_led, False,500)
             sleep(0.2)
-        set_button_led(skip_led, playpause_before, 100)
-        set_button_led(shuffle_led, shuffle_before, 100)
+        if shuffle_before:
+            set_button_led(shuffle_led, shuffle_before, 300)
+        if skip_before:
+            set_button_led(skip_led, skip_before, 300)
+        
 
     threading.Thread(target=blink_err_thread).start()
 
@@ -195,7 +198,7 @@ def blink_error():
 def blink_ok():
     def blink_ok_thread():
         shuffle_before = get_led_state(shuffle_led_pin)
-        playpause_before = get_led_state(skip_led_pin)
+        skip_before = get_led_state(skip_led_pin)
         set_button_led(skip_led, False, 0)
         set_button_led(shuffle_led, False, 0)
         sleep(0.1)
@@ -205,7 +208,9 @@ def blink_ok():
         set_button_led(shuffle_led, False, 0)
         set_button_led(skip_led, True, 100)
         set_button_led(skip_led, False, 0)
-        set_button_led(skip_led, playpause_before, 100)
-        set_button_led(shuffle_led, shuffle_before, 100)
+        if skip_before:
+            set_button_led(skip_led, skip_before, 100)
+        if shuffle_before:
+            set_button_led(shuffle_led, shuffle_before, 100)
 
     threading.Thread(target=blink_ok_thread).start()
