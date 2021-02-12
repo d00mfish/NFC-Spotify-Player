@@ -101,16 +101,16 @@ def blink_error():
 
 
 def blink_ok():
-    def blink_ok_thread():
-        shuffle_before = GPIO.input(shuffle_led_pin)
-        playpause_before = GPIO.input(skip_led_pin)
-        for _ in range(5):
-            GPIO.output(skip_led_pin, True)
-            GPIO.output(shuffle_led_pin, True)
-            sleep(0.1)
-            GPIO.output(skip_led_pin, False)
-            GPIO.output(shuffle_led_pin, False)
-            sleep(0.1)
-        set_button_led(skip_led, playpause_before, 100)
-        set_button_led(shuffle_led, shuffle_before, 100)
-    threading.Thread(target=blink_ok_thread).start()
+    #def blink_ok_thread():
+    shuffle_before = GPIO.input(shuffle_led_pin)
+    playpause_before = GPIO.input(skip_led_pin)
+    for _ in range(5):
+        GPIO.output(skip_led_pin, True)
+        GPIO.output(shuffle_led_pin, True)
+        sleep(0.1)
+        GPIO.output(skip_led_pin, False)
+        GPIO.output(shuffle_led_pin, False)
+        sleep(0.1)
+    set_button_led(skip_led, playpause_before, 100)
+    set_button_led(shuffle_led, shuffle_before, 100)
+    #threading.Thread(target=blink_ok_thread).start()
