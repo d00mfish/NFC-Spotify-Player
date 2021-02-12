@@ -52,8 +52,12 @@ rotary_thread.start()
 
 
 # =====Functions=====
+def get_led_state(channel):
+    return GPIO.input(channel)
+
 def set_button_led(channel: object, state: bool, speed_ms: int):
     if speed_ms == 0:
+    #if get_led_state(object.pin) is state: return
         channel.ChangeDutyCycle(int(state)*100)
     elif state:
         for dc in range(1, 101, 1):
