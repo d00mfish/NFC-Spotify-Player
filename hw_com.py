@@ -183,6 +183,7 @@ def blink_error():
         playpause_before = GPIO.input(skip_led_pin)
         for _ in range(3):
             set_button_led(skip_led, False,500)
+            sleep(0.2)
             set_button_led(shuffle_led, False,500)
             sleep(0.2)
         set_button_led(skip_led, playpause_before, 100)

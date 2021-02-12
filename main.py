@@ -72,8 +72,8 @@ def main():
 
 
 def write_card():
-    gpio.set_button_led(gpio.skip_led, True, 150)
-    gpio.set_button_led(gpio.shuffle_led, True, 150)
+    gpio.set_button_led(gpio.skip_led, False, 150)
+    gpio.set_button_led(gpio.shuffle_led, False, 150)
     gpio.set_button_led(gpio.skip_led, True, 150)
     gpio.set_button_led(gpio.shuffle_led, True, 150)
     # Get current playlist uri and playing song info
