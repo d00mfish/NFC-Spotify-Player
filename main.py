@@ -5,7 +5,7 @@ import hw_com as gpio
 import threading
 
 
-volume = spotify.default_volume
+volume = spotify.get_volume()
 tmp_vol = volume
 vol_thread_active = False
 
@@ -131,9 +131,8 @@ def playpause_press(channel):  # currently only pauses
 
 
 def skip_press(channel):
-    spotify.sp.next_track()
     print("Skipping...")
-    sleep(0.2)
+    spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, True, 150)
     gpio.set_button_led(gpio.skip_led, False, 150)
 
