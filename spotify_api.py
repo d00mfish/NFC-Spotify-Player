@@ -86,14 +86,14 @@ def set_volume(value: int):
 
 def playpause():
     global playstate
-    if playstate is True:  # dont know how :(
+    if playstate is True:  # dont know how to read from api :(
         print("Pausing...")
-        sp.pause_playback(device_id=config["DEVICE"]["device_id"])
         playstate = False
+        sp.pause_playback(device_id=config["DEVICE"]["device_id"])
     else:
         print("Resuming...")
-        sp.start_playback(device_id=config["DEVICE"]["device_id"])
         playstate = True
+        sp.start_playback(device_id=config["DEVICE"]["device_id"])
 
 
 def play_context_URI(uri: str):
@@ -128,4 +128,4 @@ def play_URIs(uris: list):
 
 
 if __name__ == "__main__":
-    print(current_playback())
+    sp.pause_playback(device_id=config["DEVICE"]["device_id"])

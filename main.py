@@ -130,6 +130,7 @@ def playpause_press(channel):  # currently only pauses
 
 
 def skip_press(channel):
+    print("Skipping...")
     spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, 1)
     sleep(0.2)
