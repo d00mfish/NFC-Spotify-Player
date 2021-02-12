@@ -69,7 +69,13 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
             sleep(speed_ms / 100 / 1000)
 
 def set_button_dc(channel: object, dc):
-    channel.ChangeDutyCycle(dc)
+    def cie1931(L):         #brightness correction from the WEB™
+        L = L*100.0
+        if L <= 8:
+            return (L/903.3)
+        else:
+            return ((L+16.0)/119.0)**3
+    channel.ChangeDutyCycle(cie1931(dc))
 
 
 def blink_error():

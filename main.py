@@ -189,12 +189,12 @@ if __name__ == "__main__":
         except:
             print("CRASHED! Restarting in 10 seconds")
             for i in range(10):
-                gpio.set_button_led(gpio.skip_led, True, 300)
-                gpio.set_button_led(gpio.shuffle_led, False, 300)
+                gpio.set_button_led(gpio.skip_led, True, 150)
+                gpio.set_button_led(gpio.shuffle_led, False, 150)
                 # led rot an
                 sleep(0.5)
-                gpio.set_button_led(gpio.skip_led, False, 300)
-                gpio.set_button_led(gpio.shuffle_led, True, 300)
+                gpio.set_button_led(gpio.skip_led, False, 150)
+                gpio.set_button_led(gpio.shuffle_led, True, 150)
                 # led rot aus
                 sleep(0.5)
             gpio.set_button_led(gpio.skip_led, False, 0)
