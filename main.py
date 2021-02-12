@@ -7,7 +7,6 @@ volume = spotify.default_volume
 tmp_vol = volume
 vol_thread_active = False
 
-
 def main():
     global volume
     refresh_shuffle_led()
@@ -95,8 +94,8 @@ def write_card():
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
     str_uid = rfid.wait_for_uid()[1]
-    gpio.set_button_led(gpio.skip_led, False, 0)
-    gpio.set_button_led(gpio.shuffle_led, False, 0)
+    gpio.set_button_led(gpio.skip_led, False, 150)
+    gpio.set_button_led(gpio.shuffle_led, False, 150)
     if str_uid == spotify.learn_card_uid or str_uid == spotify.device_card_uid:
         print(" >Can't write uri to learn or device card. Arborting!")
         return -1
@@ -107,7 +106,6 @@ def write_card():
 
     print("Successfully leaned!")
     gpio.blink_ok()
-    gpio.set_button_led(gpio.shuffle_led, shuffle_before, 0)
 
 
 def shuffle_press(channel):
@@ -138,8 +136,10 @@ def skip_press(channel):
 
 
 def refresh_shuffle_led():
-    if not vol_thread_active:
-        gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state(), 0)
+    if not vol_thread_active:   #so volume pwm doesn't get interrupted
+        shufflestate = spotify.get_shuffle_state()
+        if gpio.get_led_state(gpio.shuffle_led_pin) != shufflestate:    #only set led of neccesary
+            gpio.set_button_led(gpio.shuffle_led, shufflestate , 300)
 
 
 def volume_thread():
