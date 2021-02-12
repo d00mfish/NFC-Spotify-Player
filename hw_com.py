@@ -61,21 +61,18 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
         channel.ChangeDutyCycle(int(state)*100)
     elif state:
         for dc in range(1, 101, 1):
-            channel.ChangeDutyCycle(dc)
+            set_led_dc(channel, dc)
             sleep(speed_ms / 100 / 1000)
     else:
         for dc in range(100, -1, -1):
-            channel.ChangeDutyCycle(dc)
+            set_led_dc(channel, dc)
             sleep(speed_ms / 100 / 1000)
 
-def set_button_dc(channel: object, dc):
-    def cie1931(L):         #brightness correction from the WEB™
-        L = L*100.0
-        if L <= 8:
-            return (L/903.3)
-        else:
-            return ((L+16.0)/119.0)**3
-    channel.ChangeDutyCycle(cie1931(dc))
+def set_led_dc(channel: object, dc):
+    correction_table = (0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 
+	10, 11, 12, 12, 13, 13, 14, 15, 16, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35, 36, 
+	38, 39, 40, 42, 43, 45, 46, 48, 49, 51, 53, 54, 56, 58, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 86, 88, 90, 93)
+    channel.ChangeDutyCycle(correction_table[dc])
 
 
 def blink_error():
