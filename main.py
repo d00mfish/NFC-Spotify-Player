@@ -135,7 +135,6 @@ def skip_press(channel):
     print("Skipping...")
     sleep(0.2)
     gpio.set_button_led(gpio.skip_led, True, 150)
-    sleep(0.2)
     gpio.set_button_led(gpio.skip_led, False, 150)
 
 

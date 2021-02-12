@@ -80,7 +80,7 @@ def set_led_dc(channel: object, dc):
 	42, 43, 44, 46, 48, 49, 51, 53, 54, 56, 
 	58, 60, 61, 63, 65, 67, 69, 71, 73, 76, 
 	78, 80, 82, 85, 87, 89, 92, 94, 97, 99, 
-	102)
+	100)
     channel.ChangeDutyCycle(correction_table[dc])
 
 
