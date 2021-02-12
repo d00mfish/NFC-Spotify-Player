@@ -68,6 +68,8 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
             channel.ChangeDutyCycle(dc)
             sleep(speed_ms / 100 / 1000)
 
+def set_button_dc(channel: object, dc):
+    channel.ChangeDutyCycle(dc)
 
 
 def blink_error():
