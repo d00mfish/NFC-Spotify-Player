@@ -5,7 +5,7 @@ import hw_com as gpio
 import threading
 
 
-volume = spotify.get_volume()
+volume = spotify.default_volume
 tmp_vol = volume
 vol_thread_active = False
 
@@ -22,7 +22,7 @@ def main():
         uid, str_uid = rfid.check_once(10)
         # timeout controlls refresh time for e.g. shuffle refresh
         refresh_shuffle_led()
-
+        volume = spotify.get_volume()
         if uid == -1:
             continue
 
