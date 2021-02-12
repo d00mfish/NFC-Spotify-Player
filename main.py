@@ -2,8 +2,6 @@ from time import sleep, time
 import rfid_com as rfid
 import spotify_api as spotify
 import hw_com as gpio
-import threading
-
 
 volume = spotify.default_volume
 tmp_vol = volume

@@ -55,10 +55,11 @@ rotary_thread.start()
 def get_led_state(channel):
     return GPIO.input(channel)
 
+
 def set_button_led(channel: object, state: bool, speed_ms: int):
     if speed_ms == 0:
-    #if get_led_state(object.pin) is state: return
-        channel.ChangeDutyCycle(int(state)*100)
+        # if get_led_state(object.pin) is state: return
+        channel.ChangeDutyCycle(int(state) * 100)
     elif state:
         for dc in range(1, 101, 1):
             set_led_dc(channel, dc)
@@ -68,19 +69,111 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
             set_led_dc(channel, dc)
             sleep(speed_ms / 100 / 1000)
 
+
 def set_led_dc(channel: object, dc):
     correction_table = (
-    0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 
-	1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 
-	3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 
-	6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 
-	11, 12, 13, 13, 14, 15, 16, 16, 17, 18, 
-	19, 20, 21, 21, 22, 23, 24, 25, 26, 28, 
-	29, 30, 31, 32, 33, 35, 36, 37, 39, 40, 
-	42, 43, 44, 46, 48, 49, 51, 53, 54, 56, 
-	58, 60, 61, 63, 65, 67, 69, 71, 73, 76, 
-	78, 80, 82, 85, 87, 89, 92, 94, 97, 99, 
-	100)
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        8,
+        8,
+        9,
+        9,
+        10,
+        10,
+        11,
+        11,
+        12,
+        13,
+        13,
+        14,
+        15,
+        16,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35,
+        36,
+        37,
+        39,
+        40,
+        42,
+        43,
+        44,
+        46,
+        48,
+        49,
+        51,
+        53,
+        54,
+        56,
+        58,
+        60,
+        61,
+        63,
+        65,
+        67,
+        69,
+        71,
+        73,
+        76,
+        78,
+        80,
+        82,
+        85,
+        87,
+        89,
+        92,
+        94,
+        97,
+        99,
+        100,
+    )
     channel.ChangeDutyCycle(correction_table[dc])
 
 
@@ -88,15 +181,15 @@ def blink_error():
     def blink_err_thread():
         shuffle_before = GPIO.input(shuffle_led_pin)
         playpause_before = GPIO.input(skip_led_pin)
+        set_button_led(skip_led_pin, True, 0)
+        set_button_led(shuffle_led_pin, True, 0)
         for _ in range(3):
-            GPIO.output(skip_led_pin, True)
-            GPIO.output(shuffle_led_pin, True)
             sleep(0.5)
-            GPIO.output(skip_led_pin, False)
-            GPIO.output(shuffle_led_pin, False)
-            sleep(0.5)
+            set_button_led(skip_led_pin, False,150)
+            set_button_led(shuffle_led_pin, False,150)
         set_button_led(skip_led, playpause_before, 100)
         set_button_led(shuffle_led, shuffle_before, 100)
+
     threading.Thread(target=blink_err_thread).start()
 
 
@@ -115,4 +208,5 @@ def blink_ok():
         set_button_led(skip_led, False, 0)
         set_button_led(skip_led, playpause_before, 100)
         set_button_led(shuffle_led, shuffle_before, 100)
+
     threading.Thread(target=blink_ok_thread).start()
