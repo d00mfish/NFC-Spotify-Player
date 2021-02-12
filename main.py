@@ -140,7 +140,7 @@ def skip_press(channel):
 
 def refresh_shuffle_led():
     if not vol_thread_active:
-        gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
+        gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state(), 0)
 
 
 def volume_thread():
