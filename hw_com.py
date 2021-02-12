@@ -57,8 +57,12 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
-    if get_led_state(globals()[str(channel)+'_pin']) is state:      #sketch af but not willed to find another solution
-        return
+    if channel == skip_led:
+        if get_led_state(skip_led_pin) is state:      #sketch af but not willed to find another solution
+            return
+    elif channel == shuffle_led:
+        if get_led_state(skip_led_pin) is state:      #sketch af but not willed to find another solution
+            return
     elif speed_ms == 0:
         channel.ChangeDutyCycle(int(state) * 100)
     elif state:
