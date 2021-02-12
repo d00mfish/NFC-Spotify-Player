@@ -96,7 +96,6 @@ def write_card():
     print("Scan the learn-card again to abort.")
     str_uid = rfid.wait_for_uid()[1]
     gpio.set_button_led(gpio.skip_led, False, 150)
-    gpio.set_button_led(gpio.shuffle_led, False, 150)
     gpio.set_button_led(gpio.shuffle_led, shuffle_before, 150)
     if str_uid == spotify.learn_card_uid or str_uid == spotify.device_card_uid:
         print(" >Can't write uri to learn or device card. Arborting!")
