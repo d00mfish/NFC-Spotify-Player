@@ -104,7 +104,7 @@ def blink_ok():
     def blink_ok_thread():
         shuffle_before = GPIO.input(shuffle_led_pin)
         playpause_before = GPIO.input(skip_led_pin)
-        for _ in range(2):
+        for _ in range(5):
             set_led_dc(skip_led, True)
             set_led_dc(shuffle_led, True)
             sleep(0.1)
