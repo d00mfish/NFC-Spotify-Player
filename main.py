@@ -156,8 +156,8 @@ def volume_thread():
     prev_vol = volume
     while True:
         sleep(0.1)
-        gpio.set_button_dc(gpio.shuffle_led, volume)
-        gpio.set_button_dc(gpio.skip_led, volume)
+        gpio.set_led_dc(gpio.shuffle_led, volume)
+        gpio.set_led_dc(gpio.skip_led, volume)
         elapsed = time() - start
         """
         if volume < 33:
