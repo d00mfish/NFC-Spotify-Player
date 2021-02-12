@@ -150,16 +150,16 @@ def volume_thread():
 
     shuffle_before = gpio.GPIO.input(gpio.shuffle_led)
     playpause_before = gpio.GPIO.input(gpio.skip_led)
-    gpio.set_button_led(gpio.skip_led, False)
-    gpio.set_button_led(gpio.shuffle_led, False)
+    gpio.set_button_led(gpio.skip_led, False, 0)
+    gpio.set_button_led(gpio.shuffle_led, False, 0)
 
     prev_vol = volume
     while True:
         sleep(0.1)
-        gpio.set_duty_cycle(gpio.shuffle_pwm, volume)
-        gpio.set_duty_cycle(gpio.skip_pwm, volume)
+        gpio.set_button_led(gpio.shuffle_led, volume, 0)
+        gpio.set_button_led(gpio.skip_led, volume, 0)
         elapsed = time() - start
-        '''
+        """
         if volume < 33:
             gpio.set_button_led(gpio.skip_led, False)
             gpio.set_button_led(gpio.shuffle_led, False)
@@ -169,33 +169,33 @@ def volume_thread():
         elif volume > 66:
             gpio.set_button_led(gpio.skip_led, True)
             gpio.set_button_led(gpio.shuffle_led, True)
-        '''
+        """
         if volume != prev_vol:
             start = time()
             prev_vol = volume
         elif elapsed > 1.2:
             spotify.set_volume(volume)
             vol_thread_active = False
-            gpio.set_button_led(gpio.skip_led, playpause_before)
-            gpio.set_button_led(gpio.shuffle_led, shuffle_before)
+            gpio.set_button_led(gpio.skip_led, playpause_before, 0)
+            gpio.set_button_led(gpio.shuffle_led, shuffle_before, 0)
             return
 
 
 if __name__ == "__main__":
-    print("Rotary Thread is alive: ",gpio.rotary_thread.is_alive())
+    print("Rotary Thread is alive: ", gpio.rotary_thread.is_alive())
     while True:
         try:
             main()
         except:
             print("CRASHED! Restarting in 10 seconds")
             for i in range(10):
-                gpio.set_button_led(gpio.skip_led, True)
-                gpio.set_button_led(gpio.shuffle_led, False)
+                gpio.set_button_led(gpio.skip_led, True,300)
+                gpio.set_button_led(gpio.shuffle_led, False,300)
                 # led rot an
                 sleep(0.5)
-                gpio.set_button_led(gpio.skip_led, False)
-                gpio.set_button_led(gpio.shuffle_led, True)
+                gpio.set_button_led(gpio.skip_led, False,300)
+                gpio.set_button_led(gpio.shuffle_led, True,300)
                 # led rot aus
                 sleep(0.5)
-            gpio.set_button_led(gpio.skip_led, False)
-            gpio.set_button_led(gpio.shuffle_led, False)
+            gpio.set_button_led(gpio.skip_led, False,0)
+            gpio.set_button_led(gpio.shuffle_led, False,0)
