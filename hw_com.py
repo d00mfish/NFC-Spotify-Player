@@ -86,8 +86,8 @@ def set_led_dc(channel: object, dc):
 
 def blink_error():
     def blink_err_thread():
-        shuffle_before = GPIO.input(shuffle_led)
-        playpause_before = GPIO.input(skip_led)
+        shuffle_before = GPIO.input(shuffle_led_pin)
+        playpause_before = GPIO.input(skip_led_pin)
         for _ in range(3):
             set_led_dc(skip_led, True)
             set_led_dc(shuffle_led, True)
@@ -102,8 +102,8 @@ def blink_error():
 
 def blink_ok():
     def blink_ok_thread():
-        shuffle_before = GPIO.input(shuffle_led)
-        playpause_before = GPIO.input(skip_led)
+        shuffle_before = GPIO.input(shuffle_led_pin)
+        playpause_before = GPIO.input(skip_led_pin)
         for _ in range(2):
             set_led_dc(skip_led, True)
             set_led_dc(shuffle_led, True)
