@@ -58,11 +58,12 @@ def get_led_state(channel):
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
     if channel == skip_led:
-        if get_led_state(skip_led_pin) is state:      #sketch af but not willed to find another solution
-            return
+        if get_led_state(skip_led_pin) is state:        #prevents flickering if led is already at on state and gets set to True and vice versa
+            return                                      #needs another solution!!
     elif channel == shuffle_led:
-        if get_led_state(skip_led_pin) is state:      #sketch af but not willed to find another solution
+        if get_led_state(skip_led_pin) is state:   
             return
+
     elif speed_ms == 0:
         channel.ChangeDutyCycle(int(state) * 100)
     elif state:
