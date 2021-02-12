@@ -149,8 +149,6 @@ def volume_thread():
 
     shuffle_before = gpio.get_led_state(gpio.shuffle_led_pin)
     skip_before = gpio.get_led_state(gpio.skip_led_pin)
-    gpio.set_button_led(gpio.skip_led, False, 0)
-    gpio.set_button_led(gpio.shuffle_led, False, 0)
 
     prev_vol = volume
     while True:
