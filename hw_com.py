@@ -19,12 +19,12 @@ rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
 GPIO.setmode(GPIO.BCM)
-GPIO.setup([shuffle_led, skip_led], GPIO.OUT)
+GPIO.setup([shuffle_led_pin, skip_led_pin], GPIO.OUT)
 GPIO.setup([shuffle_in, skip_in], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(playpause_in, GPIO.IN)
 # Init PWM
-shuffle_led = GPIO.PWM(shuffle_led, 200)
-skip_led = GPIO.PWM(skip_led, 200)
+shuffle_led = GPIO.PWM(shuffle_led_pin, 200)
+skip_led = GPIO.PWM(skip_led_pin, 200)
 shuffle_led.start(0)
 skip_led.start(0)
 # Interrupt listener init
