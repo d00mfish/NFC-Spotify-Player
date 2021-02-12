@@ -57,7 +57,7 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
-    if get_led_state(str(channel)+'_pin') is state:
+    if get_led_state(globals()[str(channel)+'_pin']) is state:      #sketch af but not willed to find another solution
         return
     elif speed_ms == 0:
         channel.ChangeDutyCycle(int(state) * 100)
