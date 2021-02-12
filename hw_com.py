@@ -56,13 +56,11 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
     if speed_ms == 0:
         channel.ChangeDutyCycle(int(state))
     elif state:
-        for dc in (1, 101, 1):
-            print(dc)
+        for dc in range(1, 101, 1):
             channel.ChangeDutyCycle(dc)
             sleep(speed_ms / 100 / 1000)
     else:
-        for dc in (100, -1, -1):
-            print(dc)
+        for dc in range(100, -1, -1):
             channel.ChangeDutyCycle(dc)
             sleep(speed_ms / 100 / 1000)
 
