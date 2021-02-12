@@ -127,15 +127,16 @@ def shuffle_press(channel):
 
 def playpause_press(channel):  # currently only pauses
     spotify.playpause()
+    gpio.blink_ok()
 
 
 def skip_press(channel):
-    print("Skipping...")
     spotify.sp.next_track()
-    gpio.set_button_led(gpio.skip_led, True, 500)
+    print("Skipping...")
     sleep(0.2)
-    gpio.set_button_led(gpio.skip_led, False, 500)
-    return
+    gpio.set_button_led(gpio.skip_led, True, 150)
+    sleep(0.2)
+    gpio.set_button_led(gpio.skip_led, False, 150)
 
 
 def refresh_shuffle_led():
