@@ -22,9 +22,11 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup([shuffle_led, skip_led], GPIO.OUT)
 GPIO.setup([shuffle_in, skip_in], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(playpause_in, GPIO.IN)
-# Reset LEDs
-GPIO.output(shuffle_led, 0)
-GPIO.output(skip_led, 0)
+# Init PWM
+shuffle_pwm = GPIO.PWM(shuffle_led, 100)
+skip_pwm = GPIO.PWM(skip_led, 100)
+shuffle_pwm.start(0)
+skip_pwm.start(0)
 # Interrupt listener init
 GPIO.add_event_detect(
     shuffle_in, GPIO.FALLING, callback=main.shuffle_press, bouncetime=1000
@@ -77,3 +79,6 @@ def blink_ok():
         sleep(0.1)
     set_button_led(skip_led, playpause_before)
     set_button_led(shuffle_led, shuffle_before)
+
+def set_duty_cycle(channel, dc):
+    channel.ChangeDutyCycle(dc)
