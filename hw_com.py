@@ -57,8 +57,9 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
-    if speed_ms == 0:
-        # if get_led_state(object.pin) is state: return
+    if get_led_state(str(channel)+'_pin') is state:
+        return
+    elif speed_ms == 0:
         channel.ChangeDutyCycle(int(state) * 100)
     elif state:
         for dc in range(1, 101, 1):
@@ -182,9 +183,9 @@ def blink_error():
         shuffle_before = GPIO.input(shuffle_led_pin)
         playpause_before = GPIO.input(skip_led_pin)
         for _ in range(3):
-            sleep(0.5)
-            set_button_led(skip_led, False,150)
-            set_button_led(shuffle_led, False,150)
+            set_button_led(skip_led, False,500)
+            set_button_led(shuffle_led, False,500)
+            sleep(0.2)
         set_button_led(skip_led, playpause_before, 100)
         set_button_led(shuffle_led, shuffle_before, 100)
 
