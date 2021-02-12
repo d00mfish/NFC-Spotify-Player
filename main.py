@@ -114,10 +114,10 @@ def shuffle_press(channel):
     state = spotify.get_shuffle_state()
     if state is False:
         new_state = True
-        gpio.set_button_led(gpio.shuffle_led, 1)
+        gpio.set_button_led(gpio.shuffle_led, True, 500)
     elif state is True:
         new_state = False
-        gpio.set_button_led(gpio.shuffle_led, 0)
+        gpio.set_button_led(gpio.shuffle_led, False, 500)
     else:
         return -1
     spotify.set_shuffle_state(new_state)
@@ -132,9 +132,9 @@ def playpause_press(channel):  # currently only pauses
 def skip_press(channel):
     print("Skipping...")
     spotify.sp.next_track()
-    gpio.set_button_led(gpio.skip_led, 1)
+    gpio.set_button_led(gpio.skip_led, True, 500)
     sleep(0.2)
-    gpio.set_button_led(gpio.skip_led, 0)
+    gpio.set_button_led(gpio.skip_led, False, 500)
     return
 
 
@@ -189,13 +189,13 @@ if __name__ == "__main__":
         except:
             print("CRASHED! Restarting in 10 seconds")
             for i in range(10):
-                gpio.set_button_led(gpio.skip_led, True,300)
-                gpio.set_button_led(gpio.shuffle_led, False,300)
+                gpio.set_button_led(gpio.skip_led, True, 300)
+                gpio.set_button_led(gpio.shuffle_led, False, 300)
                 # led rot an
                 sleep(0.5)
-                gpio.set_button_led(gpio.skip_led, False,300)
-                gpio.set_button_led(gpio.shuffle_led, True,300)
+                gpio.set_button_led(gpio.skip_led, False, 300)
+                gpio.set_button_led(gpio.shuffle_led, True, 300)
                 # led rot aus
                 sleep(0.5)
-            gpio.set_button_led(gpio.skip_led, False,0)
-            gpio.set_button_led(gpio.shuffle_led, False,0)
+            gpio.set_button_led(gpio.skip_led, False, 0)
+            gpio.set_button_led(gpio.shuffle_led, False, 0)
