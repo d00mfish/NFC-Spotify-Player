@@ -3,7 +3,7 @@ import rfid_com as rfid
 import spotify_api as spotify
 import hw_com as gpio
 
-volume = spotify.default_volume
+volume = None
 tmp_vol = volume
 vol_thread_active = False
 
@@ -15,6 +15,7 @@ def main():
     refresh_shuffle_led()
     volume = spotify.get_volume()
     print("Waiting for RFID Signal...")
+# =====Main Loop=====
     while True:
         uid, str_uid = rfid.check_once(10)
         # timeout controlls refresh time for e.g. shuffle refresh
@@ -23,11 +24,12 @@ def main():
         if uid == -1:
             continue
 
-        print(str_uid)
+# =====Checking uids for detected Card=====
+        print("UID: ",str_uid)
         # Device Learning
         if str_uid == spotify.device_card_uid:
             device_id, device_name = spotify.current_device()
-            if device_id != -1:  # set device id if id sucessfull retrieved
+            if device_id != -1:
                 spotify.set_config_value("DEVICE", "device_id", str(device_id))
                 print("Set {} as new device. ID:{}".format(device_name, device_id))
                 gpio.blink_ok()
@@ -72,7 +74,7 @@ def main():
 
 
 def write_card():
-    shuffle_before = gpio.get_led_state(gpio.shuffle_led_pin)
+    #shuffle_before = gpio.get_led_state(gpio.shuffle_led_pin)
     gpio.set_button_led(gpio.skip_led, True, 0)
     gpio.set_button_led(gpio.shuffle_led, True, 0)
     # Get current playlist uri and playing song info
