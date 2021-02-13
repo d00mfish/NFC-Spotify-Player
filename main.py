@@ -140,6 +140,8 @@ def refresh_shuffle_led():
     if not vol_thread_active:   #so volume pwm doesn't get interrupted
         shufflestate = spotify.get_shuffle_state()
         if gpio.get_led_state(gpio.shuffle_led_pin) != shufflestate:    #only set led of neccesary
+            print(shufflestate)
+            print(gpio.get_led_state(gpio.shuffle_led_pin))
             gpio.set_button_led(gpio.shuffle_led, shufflestate , 300)
 
 

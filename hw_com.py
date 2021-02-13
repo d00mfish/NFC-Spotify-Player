@@ -57,20 +57,18 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
-    def set_button_thread(channel, state, speed_ms):
-        # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
-        if speed_ms == 0:
-            channel.ChangeDutyCycle(int(state) * 100)
-        elif state:
-            for dc in range(1, 101, 1):
-                set_led_dc(channel, dc)
-                sleep(speed_ms / 100 / 1000)
-        else:
-            for dc in range(100, -1, -1):
-                set_led_dc(channel, dc)
-                sleep(speed_ms / 100 / 1000)
-
-    threading.Thread(target=set_button_thread, args=(channel, state, speed_ms))
+    # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
+    #easies way would be to read the current state but doesn't work
+    if speed_ms == 0:
+        channel.ChangeDutyCycle(int(state) * 100)
+    elif state:
+        for dc in range(1, 101, 1):
+            set_led_dc(channel, dc)
+            sleep(speed_ms / 100 / 1000)
+    else:
+        for dc in range(100, -1, -1):
+            set_led_dc(channel, dc)
+            sleep(speed_ms / 100 / 1000)
 
 
 def set_led_dc(channel: object, dc):
