@@ -57,8 +57,8 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: object, state: bool, speed_ms: int):
-    def set_button_thread(channel: object, state: bool, speed_ms: int):
-#needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
+    def set_button_thread(channel, state, speed_ms):
+        # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
         if speed_ms == 0:
             channel.ChangeDutyCycle(int(state) * 100)
         elif state:
@@ -69,7 +69,8 @@ def set_button_led(channel: object, state: bool, speed_ms: int):
             for dc in range(100, -1, -1):
                 set_led_dc(channel, dc)
                 sleep(speed_ms / 100 / 1000)
-    threading.Thread(target=set_button_thread)
+
+    threading.Thread(target=set_button_thread, args=(channel, state, speed_ms))
 
 
 def set_led_dc(channel: object, dc):
@@ -184,15 +185,14 @@ def blink_error():
         shuffle_before = get_led_state(shuffle_led_pin)
         skip_before = get_led_state(skip_led_pin)
         for _ in range(3):
-            set_button_led(skip_led, False,300)
+            set_button_led(skip_led, False, 300)
             sleep(0.2)
-            set_button_led(shuffle_led, False,300)
+            set_button_led(shuffle_led, False, 300)
             sleep(0.2)
         if shuffle_before:
             set_button_led(shuffle_led, shuffle_before, 300)
         if skip_before:
             set_button_led(skip_led, skip_before, 300)
-        
 
     threading.Thread(target=blink_err_thread).start()
 
