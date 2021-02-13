@@ -23,6 +23,7 @@ def main():
         if uid == -1:
             continue
 
+        print(str_uid)
         # Device Learning
         if str_uid == spotify.device_card_uid:
             device_id, device_name = spotify.current_device()
@@ -65,7 +66,7 @@ def main():
                 continue
 
             print("Playing now!")
-            playstate = True
+            spotify.playstate = True
             gpio.blink_ok()
             sleep(1)
 
@@ -186,7 +187,7 @@ if __name__ == "__main__":
             print("CRASHED! Restarting in 10 seconds")
             gpio.set_button_led(gpio.skip_led, False, 0)
             gpio.set_button_led(gpio.shuffle_led, False, 0)
-            for i in range(10):
+            for i in range(7):
                 gpio.set_button_led(gpio.skip_led, True, 150)
                 gpio.set_button_led(gpio.shuffle_led, True, 150)
                 # led rot an
