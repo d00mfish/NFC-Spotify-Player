@@ -141,8 +141,11 @@ def skip_press(channel):
 def refresh_shuffle_led():
     if not vol_thread_active:   #so volume pwm doesn't get interrupted
         shufflestate = spotify.get_shuffle_state()
-        if gpio.get_led_state(gpio.shuffle_led_pin) != int(shufflestate):    #only set led of neccesary
-            gpio.set_button_led(gpio.shuffle_led, shufflestate , 300)
+        if  shuffle_press != -1:
+            if gpio.get_led_state(gpio.shuffle_led_pin) != int(shufflestate):    #only set led of neccesary
+                gpio.set_button_led(gpio.shuffle_led, shufflestate , 300)
+        else:
+            gpio.set_button_led(gpio.shuffle_led, False , 300)  #Turning LED off, if no playback detected
 
 
 def volume_thread():
@@ -186,17 +189,17 @@ if __name__ == "__main__":
         try:
             main()
         except:
-            print("CRASHED! Restarting in 10 seconds")
+            print("CRASHED! Restarting in 6 seconds")
             gpio.set_button_led(gpio.skip_led, False, 0)
             gpio.set_button_led(gpio.shuffle_led, False, 0)
-            for i in range(7):
+            for i in range(5):
                 gpio.set_button_led(gpio.skip_led, True, 150)
                 gpio.set_button_led(gpio.shuffle_led, True, 150)
                 # led rot an
-                sleep(0.5)
+                sleep(0.3)
                 gpio.set_button_led(gpio.skip_led, False, 150)
                 gpio.set_button_led(gpio.shuffle_led, False, 150)
                 # led rot aus
-                sleep(0.5)
+                sleep(0.3)
             gpio.set_button_led(gpio.skip_led, False, 0)
             gpio.set_button_led(gpio.shuffle_led, False, 0)

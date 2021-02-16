@@ -27,7 +27,7 @@ shuffle_led = GPIO.PWM(shuffle_led_pin, 200)
 skip_led = GPIO.PWM(skip_led_pin, 200)
 shuffle_led.start(0)
 skip_led.start(0)
-# Interrupt listener init
+# =====Interrupt listener init=====
 GPIO.add_event_detect(
     shuffle_in, GPIO.FALLING, callback=main.shuffle_press, bouncetime=1000
 )

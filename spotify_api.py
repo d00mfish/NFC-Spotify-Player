@@ -3,18 +3,16 @@ import configparser
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
+# =====Read .cfg file=====
 config = configparser.ConfigParser(allow_no_value=True)
 config.read("config.cfg")
-
 device_card_uid = config["UIDS"]["device_card_uid"]
 learn_card_uid = config["UIDS"]["learn_card_uid"]
 default_volume = int(config["DEVICE"]["default_volume"])
 
 playstate = False  # Needed because play/pause state can't be read reliably
 
-
-# auth = SpotifyOAuth(client_id, client_secret, redirect_uri, scope)
-# sp = spotipy.Spotify(auth_manager=auth)
+# =====Spotipy Oauth Init=====
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         client_id=config["AUTH"]["client_id"],
@@ -24,7 +22,7 @@ sp = spotipy.Spotify(
     )
 )
 
-
+# =====Functions=====
 # returns the URI für the Album or Playlist, the current track is played from.
 def current_playback():
     playback = sp.current_playback()
@@ -110,7 +108,6 @@ def play_context_URI(uri: str):
         # Workaround for permission problems when other device is currently in playback
         sp.transfer_playback(config["DEVICE"]["device_id"], force_play=False)
         time.sleep(0.5)
-        # sp.pause_playback()
         set_volume(default_volume)
         time.sleep(0.5)
 
