@@ -56,8 +56,7 @@ def convert_value(inputval, maxinput, maxoutput):
 
 
 def get_led_state(channel):
-    print("LED state:", pi.read(channel))
-    return pi.read(channel)
+    return bool(pi.read(channel))
 
 
 def set_led_dc(channel: object, dc):
@@ -170,7 +169,7 @@ def set_led_dc(channel: object, dc):
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
     dc = int(state)*100 #dc in percent
-    if get_led_state(channel) != int(state):
+    if get_led_state(channel) != state:
         if speed_ms == 0:
             set_led_dc(channel, dc)
         elif state:
@@ -197,8 +196,8 @@ def blink_error():
             set_button_led(shuffle_led, True, 150)
             set_button_led(shuffle_led, False, 150)
             
-        set_button_led(shuffle_led, bool(shuffle_before), 50)
-        set_button_led(skip_led, bool(skip_before), 50)
+        set_button_led(shuffle_led, shuffle_before, 50)
+        set_button_led(skip_led, skip_before, 50)
 
     threading.Thread(target=blink_err_thread).start()
 
@@ -216,9 +215,11 @@ def blink_ok():
     set_button_led(skip_led, True, 70)
     set_button_led(skip_led, False, 0)
     sleep(0.1)
-    set_button_led(skip_led, bool(skip_before), 100)
-    set_button_led(shuffle_led, bool(shuffle_before), 100)
+    set_button_led(skip_led, skip_before, 100)
+    set_button_led(shuffle_led, shuffle_before, 100)
 
 
 if __name__ == "__main__":
-     blink_error()
+    blink_ok()
+    sleep(4)
+    blink_error()
