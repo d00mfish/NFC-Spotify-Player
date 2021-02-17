@@ -63,22 +63,21 @@ def get_led_state(channel):
 def set_button_led(channel: int, state: bool, speed_ms: int):
     # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
     # easies way would be to read the current state but doesn't work
-    startval = get_led_state(channel)
-    print("Current LED Value:", startval)
-    if speed_ms == 0:
-        pi.hardware_PWM(channel, 100, int(state)*1000000)   #1mio should be 100% at 100Hz
-    elif state:
-        for dc in range(1, 101, 1):
-            pi.hardware_PWM(channel, 100, dc*10000) #making 100 to 1mio and 0 to 0
-            sleep(speed_ms / 100 / 1000)
-    else:
-        for dc in range(100, -1, -1):
-            pi.hardware_PWM(channel, 100, dc*10000)
-            sleep(speed_ms / 100 / 1000)
+    if get_led_state(channel) != int(state):
+        if speed_ms == 0:
+            pi.hardware_PWM(channel, 100, int(state)*1000000)   #1mio should be 100% at 100Hz
+        elif state:
+            for dc in range(1, 101, 1):
+                pi.hardware_PWM(channel, 100, dc*10000) #making 100 to 1mio and 0 to 0
+                sleep(speed_ms / 100 / 1000)
+        else:
+            for dc in range(100, -1, -1):
+                pi.hardware_PWM(channel, 100, dc*10000)
+                sleep(speed_ms / 100 / 1000)
 
 
 def set_led_dc(channel: object, dc):
-    pi.hardware_PWM(channel, 100, dc*1000*1000)
+    pi.hardware_PWM(channel, 100, dc*10000)
 
 
 def blink_error():
