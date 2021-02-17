@@ -185,20 +185,18 @@ def set_led_dc(channel: object, dc):
 
 
 def blink_error():
-    shuffle_before = get_led_state(shuffle_led)
-    skip_before = get_led_state(skip_led)
-    set_button_led(skip_led, False, 70)
-    set_button_led(shuffle_led, False, 70)
-    sleep(0.1)
-    for _ in range(3):
-        set_button_led(skip_led, True, 300)
-        set_button_led(shuffle_led, True, 300)
-        sleep(0.3)
-        set_button_led(skip_led, False, 300)
-        set_button_led(shuffle_led, False, 300)
-        sleep(0.3)
-    set_button_led(shuffle_led, shuffle_before, 300)
-    set_button_led(skip_led, skip_before, 300)
+    def blink_err_thread():
+        shuffle_before = get_led_state(shuffle_led)
+        skip_before = get_led_state(skip_led)
+        for _ in range(3):
+            set_button_led(skip_led, False, 300)
+            sleep(0.3)
+            set_button_led(shuffle_led, False, 300)
+            sleep(0.3)
+        set_button_led(shuffle_led, shuffle_before, 100)
+        set_button_led(skip_led, skip_before, 100)
+
+    threading.Thread(target=blink_err_thread).start()
 
 
 def blink_ok():
