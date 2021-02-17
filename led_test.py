@@ -166,16 +166,17 @@ def set_led_dc(channel: object, dc):
 
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
-    if get_led_state(channel) != int(state)*100:
+    dc = int(state)*100 #dc in percent
+    if get_led_state(channel) != dc:
         if speed_ms == 0:
-            set_led_dc(channel, 100, dc)
+            set_led_dc(channel, dc)
         elif state:
             for dc in range(1, 101, 1):
-                set_led_dc(channel, 100, dc)
+                set_led_dc(channel, dc)
                 sleep(speed_ms / 100 / 1000)
         else:
             for dc in range(100, -1, -1):
-                set_led_dc(channel, 100, dc)
+                set_led_dc(channel, dc)
                 sleep(speed_ms / 100 / 1000)
 
 
