@@ -217,6 +217,4 @@ def blink_ok():
 
 
 if __name__ == "__main__":
-    while(1):
-        blink_error()
-        sleep(5)
+     blink_error()
