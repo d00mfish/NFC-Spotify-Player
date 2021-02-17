@@ -111,7 +111,7 @@ def write_card():
     gpio.blink_ok()
 
 
-def shuffle_press(channel):
+def shuffle_press(pin, level, tick):
     state = spotify.get_shuffle_state()
     if state is False:
         new_state = True
@@ -126,12 +126,12 @@ def shuffle_press(channel):
     # gpio.set_button_led(gpio.shuffle_led, spotify.get_shuffle_state())
 
 
-def playpause_press(channel):  # currently only pauses
+def playpause_press(pin, level, tick):  # currently only pauses
     spotify.playpause()
     gpio.blink_ok()
 
 
-def skip_press(channel):
+def skip_press(pin, level, tick):
     print("Skipping...")
     spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, True, 150)
