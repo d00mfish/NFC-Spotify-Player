@@ -4,6 +4,8 @@ from time import sleep
 import pigpio
 from pyky040 import pyky040
 
+import time
+
 
 # =====Getting config values=====
 config = configparser.ConfigParser(allow_no_value=True)
@@ -216,21 +218,5 @@ def blink_ok():
 
 if __name__ == "__main__":
     while(1):
-        set_button_led(shuffle_led, True, 500)
-        print("1")
-        set_button_led(skip_led, True, 500)
-        print("2")
-        set_button_led(shuffle_led, False, 500)
-        print("3")
-        set_button_led(skip_led, False, 500)
-        print("4")
-
-        '''
-        for dc in range(1,101,1):
-            set_led_dc(shuffle_led, dc)
-            set_led_dc(skip_led, dc)
-        sleep(4)  
-        for dc in range(100,-1,-1):
-            set_led_dc(shuffle_led, dc)
-            set_led_dc(skip_led, dc)
-        '''
+        blink_error()
+        sleep(5)
