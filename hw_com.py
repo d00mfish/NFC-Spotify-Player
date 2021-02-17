@@ -57,7 +57,7 @@ def convert_value(inputval, maxinput, maxoutput):
 
 
 def get_led_state(channel):
-    return pi.read(channel)
+    return pi.read(channel)*100
 
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
