@@ -19,8 +19,8 @@ rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
 pi = pigpio.pi()
-pi.set_mode(shuffle_led, pigpio.OUTPUT)
-pi.set_mode(skip_led, pigpio.OUTPUT)
+#pi.set_mode(shuffle_led, pigpio.OUTPUT)
+#pi.set_mode(skip_led, pigpio.OUTPUT)
 pi.set_mode(shuffle_in, pigpio.INPUT)
 pi.set_mode(skip_in, pigpio.INPUT)
 pi.set_mode(playpause_in, pigpio.INPUT)
