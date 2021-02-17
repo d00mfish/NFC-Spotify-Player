@@ -225,12 +225,13 @@ def blink_ok():
 if __name__ == "__main__":
     while(1):
         blink_ok()
-        sleep(1)
+        sleep(4)
         blink_error()
-        sleep(1)
+        sleep(4)
         for dc in range(1,101,1):
             set_led_dc(shuffle_led, dc)
             set_led_dc(skip_led, dc)
+        sleep(4)  
         for dc in range(100,-1,-1):
             set_led_dc(shuffle_led, dc)
             set_led_dc(skip_led, dc)
