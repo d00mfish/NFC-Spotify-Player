@@ -35,13 +35,13 @@ pi.hardware_PWM(skip_led, 100, 0)
 # =====Interrupt listener init=====
 
 def shuffle_callback(a,b,c):
-    print("shuffle press")
+    print("shuffle press", c)
 
 def skip_callback(a,b,c):
-    print("skip press")
+    print("skip press", c)
 
 def playpause_callback(a,b,c):
-    print("playpause press")
+    print("playpause press", c)
 
 
 pi.callback(shuffle_in, 0, shuffle_callback)
