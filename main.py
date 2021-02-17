@@ -8,6 +8,8 @@ tmp_vol = volume
 vol_thread_active = False
 
 
+
+
 def main():
     global volume
     print("Scan the learn-card to add a Playlist to the system.")
@@ -133,10 +135,12 @@ def playpause_press(pin, level, tick):  # currently only pauses
 
 
 def skip_press(pin, level, tick):
-    print("Skipping...")
+    print("Skipping...", tick)
     spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, True, 150)
     gpio.set_button_led(gpio.skip_led, False, 150)
+
+
 
 
 def refresh_shuffle_led():
