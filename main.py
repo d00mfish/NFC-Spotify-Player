@@ -190,8 +190,6 @@ def volume_thread():
 
 
 if __name__ == "__main__":
-    main()
-    """
     while True:
         try:
             main()
@@ -210,4 +208,3 @@ if __name__ == "__main__":
                 sleep(0.3)
             gpio.set_button_led(gpio.skip_led, False, 0)
             gpio.set_button_led(gpio.shuffle_led, False, 0)
-    """
