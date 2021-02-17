@@ -218,7 +218,7 @@ def blink_ok():
 
 if __name__ == "__main__":
     while(1):
-        set_button_led(shuffle_led, True, 500)
+        #set_button_led(shuffle_led, True, 0)
         sleep(0.5)
         blink_error()
         sleep(4)
