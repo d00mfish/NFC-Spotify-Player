@@ -141,7 +141,7 @@ def skip_press(channel):
 def refresh_shuffle_led():
     if not vol_thread_active:   #so volume pwm doesn't get interrupted
         shufflestate = spotify.get_shuffle_state()
-        if  shuffle_press != -1:
+        if  shufflestate != -1:
             print("Spotify shuffle:",int(shufflestate))
             print("Gpio shuffle:", gpio.get_led_state(gpio.shuffle_led_pin) )
             if gpio.get_led_state(gpio.shuffle_led_pin) != int(shufflestate):    #only set led of neccesary
