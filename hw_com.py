@@ -2,7 +2,7 @@ import main
 import configparser
 import threading
 from time import sleep
-import pigpio as pigo
+import pigpio
 from pyky040 import pyky040
 
 
@@ -18,7 +18,7 @@ rotary_clk = int(config["PINS"]["rotary_clk"])
 rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
-pi = pigo.pi()
+pi = pigpio.pi()
 pi.set_mode(shuffle_led, pigpio.OUTPUT)
 pi.set_mode(skip_led, pigpio.OUTPUT)
 pi.set_mode(shuffle_in, pigpio.INPUT)
