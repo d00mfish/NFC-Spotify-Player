@@ -188,15 +188,15 @@ def blink_error():
     def blink_err_thread():
         shuffle_before = get_led_state(shuffle_led)
         skip_before = get_led_state(skip_led)
+        set_button_led(skip_led, False, 300)
+        set_button_led(shuffle_led, False, 300)
         for _ in range(3):
+            set_button_led(skip_led, True, 300)
+            set_button_led(shuffle_led, True, 300)
             set_button_led(skip_led, False, 300)
-            sleep(0.2)
             set_button_led(shuffle_led, False, 300)
-            sleep(0.2)
-        if shuffle_before:
-            set_button_led(shuffle_led, shuffle_before, 300)
-        if skip_before:
-            set_button_led(skip_led, skip_before, 300)
+        set_button_led(shuffle_led, shuffle_before, 300)
+        set_button_led(skip_led, skip_before, 300)
 
     threading.Thread(target=blink_err_thread).start()
 
