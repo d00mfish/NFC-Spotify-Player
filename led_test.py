@@ -220,12 +220,7 @@ def blink_ok():
 
 if __name__ == "__main__":
     while(1):
-        set_button_led(shuffle_led, True, 200)
         blink_ok()
-        sleep(4)
-        blink_error()
-        sleep(4)
-        set_led_dc(shuffle_led, 0)
         sleep(4)
         '''
         for dc in range(1,101,1):
