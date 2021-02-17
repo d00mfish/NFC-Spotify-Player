@@ -220,3 +220,17 @@ def blink_ok():
             set_button_led(shuffle_led, shuffle_before, 100)
 
     threading.Thread(target=blink_ok_thread).start()
+
+
+if __name__ == "__main__":
+    while(1):
+        blink_ok()
+        sleep(1)
+        blink_error()
+        sleep(1)
+        for dc in range(1,101,1):
+            set_led_dc(shuffle_led, dc)
+            set_led_dc(skip_led, dc)
+        for dc in range(100,-1,-1):
+            set_led_dc(shuffle_led, dc)
+            set_led_dc(skip_led, dc)
