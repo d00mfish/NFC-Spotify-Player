@@ -60,26 +60,6 @@ def get_led_state(channel):
     return pi.read(channel)*100
 
 
-def set_button_led(channel: int, state: bool, speed_ms: int):
-    # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
-    # easies way would be to read the current state but doesn't work
-    if get_led_state(channel) != int(state):
-        if speed_ms == 0:
-            pi.hardware_PWM(
-                channel, 100, int(state) * 1000000
-            )  # 1mio should be 100% at 100Hz
-        elif state:
-            for dc in range(1, 101, 1):
-                pi.hardware_PWM(
-                    channel, 100, dc * 10000
-                )  # making 100 to 1mio and 0 to 0
-                sleep(speed_ms / 100 / 1000)
-        else:
-            for dc in range(100, -1, -1):
-                pi.hardware_PWM(channel, 100, dc * 10000)
-                sleep(speed_ms / 100 / 1000)
-
-
 def set_led_dc(channel: object, dc):
     correction_table = (
         0,
@@ -187,21 +167,36 @@ def set_led_dc(channel: object, dc):
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
+def set_button_led(channel: int, state: bool, speed_ms: int):
+    dc = int(state)*100 #dc in percent
+    if get_led_state(channel) != state:
+        if speed_ms == 0:
+            set_led_dc(channel, dc)
+        elif state:
+            for dc in range(1, 101, 1):
+                set_led_dc(channel, dc)
+                sleep(speed_ms / 100 / 1000)
+        else:
+            for dc in range(100, -1, -1):
+                set_led_dc(channel, dc)
+                sleep(speed_ms / 100 / 1000)
+
+
 def blink_error():
-    def blink_err_thread():
+    def blink_error_thread():
         shuffle_before = get_led_state(shuffle_led)
         skip_before = get_led_state(skip_led)
+        set_button_led(skip_led, False, 0)
+        set_button_led(shuffle_led, False, 0)
         for _ in range(3):
-            set_button_led(skip_led, False, 300)
-            sleep(0.2)
-            set_button_led(shuffle_led, False, 300)
-            sleep(0.2)
-        if shuffle_before:
-            set_button_led(shuffle_led, shuffle_before, 300)
-        if skip_before:
-            set_button_led(skip_led, skip_before, 300)
+            set_button_led(skip_led, True, 150)
+            set_button_led(skip_led, False, 150)
+            set_button_led(shuffle_led, True, 150)
+            set_button_led(shuffle_led, False, 150)
+        set_button_led(shuffle_led, shuffle_before, 50)
+        set_button_led(skip_led, skip_before, 50)
 
-    threading.Thread(target=blink_err_thread).start()
+    threading.Thread(target=blink_error_thread).start()
 
 
 def blink_ok():
@@ -211,15 +206,14 @@ def blink_ok():
         set_button_led(skip_led, False, 0)
         set_button_led(shuffle_led, False, 0)
         sleep(0.1)
-        set_button_led(skip_led, True, 100)
+        set_button_led(skip_led, True, 70)
         set_button_led(skip_led, False, 0)
-        set_button_led(shuffle_led, True, 100)
+        set_button_led(shuffle_led, True, 70)
         set_button_led(shuffle_led, False, 0)
-        set_button_led(skip_led, True, 100)
+        set_button_led(skip_led, True, 70)
         set_button_led(skip_led, False, 0)
-        if skip_before:
-            set_button_led(skip_led, skip_before, 100)
-        if shuffle_before:
-            set_button_led(shuffle_led, shuffle_before, 100)
+        sleep(0.1)
+        set_button_led(skip_led, skip_before, 100)
+        set_button_led(shuffle_led, shuffle_before, 100)
 
     threading.Thread(target=blink_ok_thread).start()
