@@ -19,29 +19,30 @@ rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
 pi = pigpio.pi()
-#pi.set_mode(shuffle_led, pigpio.OUTPUT)
-#pi.set_mode(skip_led, pigpio.OUTPUT)
+# pi.set_mode(shuffle_led, pigpio.OUTPUT)
+# pi.set_mode(skip_led, pigpio.OUTPUT)
 pi.set_mode(shuffle_in, pigpio.INPUT)
 pi.set_mode(skip_in, pigpio.INPUT)
 pi.set_mode(playpause_in, pigpio.INPUT)
 pi.set_pull_up_down(shuffle_in, pigpio.PUD_UP)
 pi.set_pull_up_down(skip_in, pigpio.PUD_UP)
 # Init PWM
-#pi.set_PWM_range(shuffle_led_pin, 100)
-#pi.set_PWM_range(skip_led_pin, 100)
+# pi.set_PWM_range(shuffle_led_pin, 100)
+# pi.set_PWM_range(skip_led_pin, 100)
 pi.hardware_PWM(shuffle_led, 100, 0)
 pi.hardware_PWM(skip_led, 100, 0)
 # =====Interrupt listener init=====
 pi.callback(shuffle_in, 0, main.shuffle_press)
 pi.callback(skip_in, 0, main.skip_press)
 pi.callback(playpause_in, 0, main.playpause_press)
-#debounce 1000 1000 500 ?
+# debounce 1000 1000 500 ?
 
 # =====Rotary setup and inizialisation=====
 def volume_callback(scale_position):
     main.volume = scale_position
     if not main.vol_thread_active:
         threading.Thread(target=main.volume_thread).start()
+
 
 rotary_encoder = pyky040.Encoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
@@ -55,7 +56,6 @@ def convert_value(inputval, maxinput, maxoutput):
     return 0
 
 
-
 def get_led_state(channel):
     return pi.read(channel)
 
@@ -65,19 +65,126 @@ def set_button_led(channel: int, state: bool, speed_ms: int):
     # easies way would be to read the current state but doesn't work
     if get_led_state(channel) != int(state):
         if speed_ms == 0:
-            pi.hardware_PWM(channel, 100, int(state)*1000000)   #1mio should be 100% at 100Hz
+            pi.hardware_PWM(
+                channel, 100, int(state) * 1000000
+            )  # 1mio should be 100% at 100Hz
         elif state:
             for dc in range(1, 101, 1):
-                pi.hardware_PWM(channel, 100, dc*10000) #making 100 to 1mio and 0 to 0
+                pi.hardware_PWM(
+                    channel, 100, dc * 10000
+                )  # making 100 to 1mio and 0 to 0
                 sleep(speed_ms / 100 / 1000)
         else:
             for dc in range(100, -1, -1):
-                pi.hardware_PWM(channel, 100, dc*10000)
+                pi.hardware_PWM(channel, 100, dc * 10000)
                 sleep(speed_ms / 100 / 1000)
 
 
 def set_led_dc(channel: object, dc):
-    pi.hardware_PWM(channel, 100, dc*10000)
+    correction_table = (
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        8,
+        8,
+        9,
+        9,
+        10,
+        10,
+        11,
+        11,
+        12,
+        13,
+        13,
+        14,
+        15,
+        16,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35,
+        36,
+        37,
+        39,
+        40,
+        42,
+        43,
+        44,
+        46,
+        48,
+        49,
+        51,
+        53,
+        54,
+        56,
+        58,
+        60,
+        61,
+        63,
+        65,
+        67,
+        69,
+        71,
+        73,
+        76,
+        78,
+        80,
+        82,
+        85,
+        87,
+        89,
+        92,
+        94,
+        97,
+        99,
+        100,
+    )
+    pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
 def blink_error():
