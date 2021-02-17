@@ -7,6 +7,7 @@ volume = None
 tmp_vol = volume
 vol_thread_active = False
 
+
 def main():
     global volume
     print("Scan the learn-card to add a Playlist to the system.")
@@ -15,7 +16,7 @@ def main():
     refresh_shuffle_led()
     volume = spotify.get_volume()
     print("Waiting for RFID Signal...")
-# =====Main Loop=====
+    # =====Main Loop=====
     while True:
         uid, str_uid = rfid.check_once(10)
         # timeout controlls refresh time for e.g. shuffle refresh
@@ -24,8 +25,8 @@ def main():
         if uid == -1:
             continue
 
-# =====Checking uids for detected Card=====
-        print("UID: ",str_uid)
+        # =====Checking uids for detected Card=====
+        print("UID: ", str_uid)
         # Device Learning
         if str_uid == spotify.device_card_uid:
             device_id, device_name = spotify.current_device()
@@ -74,7 +75,6 @@ def main():
 
 
 def write_card():
-    #shuffle_before = gpio.get_led_state(gpio.shuffle_led_pin)
     gpio.set_button_led(gpio.skip_led, True, 0)
     gpio.set_button_led(gpio.shuffle_led, True, 0)
     # Get current playlist uri and playing song info
@@ -139,15 +139,13 @@ def skip_press(channel):
 
 
 def refresh_shuffle_led():
-    if not vol_thread_active:   #so volume pwm doesn't get interrupted
+    if not vol_thread_active:  # so volume pwm doesn't get interrupted
         shufflestate = spotify.get_shuffle_state()
-        if  shufflestate != -1:
-            if gpio.get_led_state(gpio.shuffle_led_pin) != int(shufflestate):    #only set led of neccesary
-                gpio.set_button_led(gpio.shuffle_led, shufflestate , 300)
+        if shufflestate != -1:
+            gpio.set_button_led(gpio.shuffle_led, shufflestate, 300)
         else:
-            if gpio.get_led_state(gpio.shuffle_led_pin):    #only set led of neccesary
-                gpio.set_button_led(gpio.shuffle_led, False , 300)  #Turning LED off, if no playback detected
-
+            gpio.set_button_led(gpio.shuffle_led, False, 300)
+            # Turning shuffle led off if no playback
 
 
 def volume_thread():
@@ -155,8 +153,8 @@ def volume_thread():
     vol_thread_active = True
     start = time()
 
-    shuffle_before = gpio.get_led_state(gpio.shuffle_led_pin)
-    skip_before = gpio.get_led_state(gpio.skip_led_pin)
+    shuffle_before = gpio.get_led_state(gpio.shuffle_led)
+    skip_before = gpio.get_led_state(gpio.skip_led)
 
     prev_vol = volume
     while True:
@@ -188,7 +186,7 @@ def volume_thread():
 
 if __name__ == "__main__":
     main()
-    '''
+    """
     while True:
         try:
             main()
@@ -207,4 +205,4 @@ if __name__ == "__main__":
                 sleep(0.3)
             gpio.set_button_led(gpio.skip_led, False, 0)
             gpio.set_button_led(gpio.shuffle_led, False, 0)
-    '''
+    """
