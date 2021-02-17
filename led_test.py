@@ -58,7 +58,7 @@ def get_led_state(channel):
 
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
-    def led_thread():
+    def led_thread(channel, state, speed_ms):
         # needs a solution to prevent flickering if led is already at on state and gets set to True and vice versa
         # easies way would be to read the current state but doesn't work
         if get_led_state(channel) != int(state):
