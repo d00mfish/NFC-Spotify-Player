@@ -52,7 +52,7 @@ rotary_thread.start()
 
 # =====Functions=====
 def convert_value(inputval, maxinput, maxoutput):
-
+    return 0
 
 
 
