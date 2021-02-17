@@ -216,10 +216,14 @@ def blink_ok():
 
 if __name__ == "__main__":
     while(1):
-        set_button_led(shuffle_led, True, 500) 
-        set_button_led(skip_led, True, 500) 
+        set_button_led(shuffle_led, True, 500)
+        print("1")
+        set_button_led(skip_led, True, 500)
+        print("2")
         set_button_led(shuffle_led, False, 500)
-        set_button_led(skip_led, False, 500) 
+        print("3")
+        set_button_led(skip_led, False, 500)
+        print("4")
 
         '''
         for dc in range(1,101,1):
