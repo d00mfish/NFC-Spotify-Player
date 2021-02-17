@@ -218,7 +218,7 @@ if __name__ == "__main__":
     while(1):
         set_button_led(shuffle_led, True, 500)
         sleep(2)
-        set_button_led(shuffle_led, True, 500)
+        set_button_led(shuffle_led, False, 500)
         sleep(2)
         '''
         for dc in range(1,101,1):
