@@ -178,7 +178,7 @@ def volume_thread():
         sleep(0.05)
         gpio.set_led_dc(gpio.shuffle_led, volume)
         gpio.set_led_dc(gpio.skip_led, volume)
-        print("Volume:", volume)
+        #print("Volume:", volume)
         elapsed = time() - start
         if volume != prev_vol:
             start = time()
