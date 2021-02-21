@@ -85,8 +85,8 @@ def main():
 
 
 def write_card():
-    gpio.set_button_led(gpio.skip_led, True, 70)
-    gpio.set_button_led(gpio.shuffle_led, True, 70)
+    gpio.set_button_led(gpio.skip_led, gpio.ON, 70)
+    gpio.set_button_led(gpio.shuffle_led, gpio.ON, 70)
     # Get current playlist uri and playing song info
     try:
         current = spotify.current_playback()
@@ -107,8 +107,8 @@ def write_card():
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
     str_uid = rfid.wait_for_uid()[1]
-    gpio.set_button_led(gpio.skip_led, False, 70)
-    gpio.set_button_led(gpio.shuffle_led, False, 70)
+    gpio.set_button_led(gpio.skip_led, gpio.OFF, 70)
+    gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 70)
     if str_uid == spotify.learn_card_uid or str_uid == spotify.device_card_uid:
         print(" >Can't write uri to learn or device card. Arborting!")
         return -1
@@ -125,10 +125,10 @@ def shuffle_press(pin, level, tick):
     state = spotify.get_shuffle_state()
     if state is False:
         new_state = True
-        gpio.set_button_led(gpio.shuffle_led, True, 500)
+        gpio.set_button_led(gpio.shuffle_led, gpio.ON, 500)
     elif state is True:
         new_state = False
-        gpio.set_button_led(gpio.shuffle_led, False, 500)
+        gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 500)
     else:
         return -1
     spotify.set_shuffle_state(new_state)
@@ -146,8 +146,8 @@ def skip_press(pin, level, tick):
     print("Skipping...")
     spotify.sp.next_track()
     spotify.playstate = True
-    gpio.set_button_led(gpio.skip_led, True, 150)
-    gpio.set_button_led(gpio.skip_led, False, 150)
+    gpio.set_button_led(gpio.skip_led, gpio.ON, 150)
+    gpio.set_button_led(gpio.skip_led, gpio.OFF, 150)
 
 
 def refresh_shuffle_led():
@@ -156,7 +156,7 @@ def refresh_shuffle_led():
         if shufflestate != -1:
             gpio.set_button_led(gpio.shuffle_led, shufflestate, 300)
         else:
-            gpio.set_button_led(gpio.shuffle_led, False, 300)
+            gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 300)
             # Turning shuffle led off if no playback
 
 
@@ -192,16 +192,16 @@ if __name__ == "__main__":
             main()
         except:
             print("CRASHED! Restarting in 6 seconds")
-            gpio.set_button_led(gpio.skip_led, False, 0)
-            gpio.set_button_led(gpio.shuffle_led, False, 0)
+            gpio.set_button_led(gpio.skip_led, gpio.OFF, 0)
+            gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 0)
             for i in range(5):
-                gpio.set_button_led(gpio.skip_led, True, 150)
-                gpio.set_button_led(gpio.shuffle_led, True, 150)
+                gpio.set_button_led(gpio.skip_led, gpio.ON, 150)
+                gpio.set_button_led(gpio.shuffle_led, gpio.ON, 150)
                 # led rot an
                 sleep(0.3)
-                gpio.set_button_led(gpio.skip_led, False, 150)
-                gpio.set_button_led(gpio.shuffle_led, False, 150)
+                gpio.set_button_led(gpio.skip_led, gpio.OFF, 150)
+                gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 150)
                 # led rot aus
                 sleep(0.3)
-            gpio.set_button_led(gpio.skip_led, False, 0)
-            gpio.set_button_led(gpio.shuffle_led, False, 0)
+            gpio.set_button_led(gpio.skip_led, gpio.OFF, 0)
+            gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 0)
