@@ -35,23 +35,9 @@ pi.hardware_PWM(skip_led, 100, 0)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-while (
-    pi.read(shuffle_in) == 0
-    and pi.read(skip_in) == 0
-    and pi.read(playpause_in) == 0
-):
-    sleep(0.1)
-    print(
-            "state shuffle:",
-            pi.read(shuffle_in),
-            "state skip:",
-            pi.read(skip_in),
-            "state playpause:",
-            pi.read(playpause_in),
-        )
-pi.callback(shuffle_in, 0, main.shuffle_press)
-pi.callback(skip_in, 0, main.skip_press)
-pi.callback(playpause_in, 0, main.playpause_press)
+pi.callback(shuffle_in, pigpio.FALLING_EDGE, main.shuffle_press)
+pi.callback(skip_in, pigpio.FALLING_EDGE, main.skip_press)
+pi.callback(playpause_in, pigpio.FALLING_EDGE, main.playpause_press)
 
 # =====Rotary setup and inizialisation=====
 def volume_callback(way):
