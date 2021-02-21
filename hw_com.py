@@ -25,11 +25,9 @@ pi.set_mode(playpause_in, pigpio.INPUT)
 pi.set_pull_up_down(shuffle_in, pigpio.PUD_UP)
 pi.set_pull_up_down(skip_in, pigpio.PUD_UP)
 # Init PWM
-# pi.set_PWM_range(shuffle_led_pin, 100)
-# pi.set_PWM_range(skip_led_pin, 100)
 pi.hardware_PWM(shuffle_led, 100, 0)
 pi.hardware_PWM(skip_led, 100, 0)
-# =====Interrupt listener init=====
+# =====Callback listener inizialisation=====
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
