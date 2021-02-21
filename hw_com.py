@@ -186,12 +186,12 @@ def set_button_led(channel: int, dc: int, speed_ms: int):
         elif dc_before < dc:
             for dc in range(dc_before, dc+1, 1):
                 set_led_dc(channel, dc)
-                print("dc-dc_before: dc-dc_before")
+                print("dc-dc_before:", dc-dc_before)
                 sleep(speed_ms /(dc-dc_before) / 1000)
         elif dc_before > dc:
             for dc in range(dc_before, dc-1, -1):
                 set_led_dc(channel, dc)
-                print("dc-dc_before: dc-dc_before")
+                print("dc-dc_before:", dc-dc_before)
                 sleep(speed_ms /(dc_before-dc) / 1000)
 
 
