@@ -151,6 +151,7 @@ def skip_press(pin, level, tick):
     spotify.sp.next_track()
     spotify.playstate = True
     gpio.set_button_led(gpio.skip_led, gpio.ON, 150)
+    sleep(0.15)
     gpio.set_button_led(gpio.skip_led, gpio.OFF, 150)
 
 

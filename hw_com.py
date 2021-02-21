@@ -222,17 +222,22 @@ def blink_ok():
         skip_before = get_led_state(skip_led)
         set_button_led(skip_led, OFF, 0)
         set_button_led(shuffle_led, OFF, 0)
-        set_button_led(skip_led, ON, 40)
-        sleep(0.05)
+
+        set_button_led(skip_led, ON, 100)
+        sleep(0.1)
         set_button_led(skip_led, OFF, 0)
-        set_button_led(shuffle_led, ON, 30)
-        sleep(0.05)
+
+        set_button_led(shuffle_led, ON, 100)
+        sleep(0.1)
         set_button_led(shuffle_led, OFF, 0)
-        set_button_led(skip_led, ON, 30)
-        sleep(0.05)
+
+        set_button_led(skip_led, ON, 100)
+        sleep(0.1)
         set_button_led(skip_led, OFF, 0)
-        set_button_led(skip_led, skip_before, 30)
-        set_button_led(shuffle_led, shuffle_before, 30)
+    
+        set_button_led(skip_led, skip_before, 100)
+        set_button_led(shuffle_led, shuffle_before, 100)
+        sleep(0.1)
 
     threading.Thread(target=blink_ok_thread).start()
 
