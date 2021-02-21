@@ -168,6 +168,7 @@ def set_led_dc(channel: object, dc):
         100,
         100
     )
+    print(dc)
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
