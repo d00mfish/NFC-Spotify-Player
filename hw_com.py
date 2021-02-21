@@ -61,12 +61,7 @@ def convert_value(inputval, maxinput, maxoutput):
 
 
 def get_led_state(channel):
-    val = pi.read(channel)
-    print("led state:",val)
-    if val == 0 or val == 1:
-        return val * 100
-    else:
-        return val
+    return pi.get_PWM_dutycycle(channel)/10000
     
 
 
