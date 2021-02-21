@@ -31,7 +31,7 @@ pi.hardware_PWM(skip_led, 100, 0)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-sleep(0.3)#Wait for pullup to pull up
+sleep(0.3)  # Wait for pullup to pull up
 pi.callback(shuffle_in, pigpio.FALLING_EDGE, main.shuffle_press)
 pi.callback(skip_in, pigpio.FALLING_EDGE, main.skip_press)
 pi.callback(playpause_in, pigpio.FALLING_EDGE, main.playpause_press)
@@ -43,9 +43,13 @@ def volume_callback(scale_position):
         threading.Thread(target=main.volume_thread).start()
 
 
+"""
 rotary_encoder = pyky040.Encoder(
-    CLK=rotary_clk, DT=rotary_dt, SW=None
-)  # not needed if device added in boot
+    CLK=rotary_clk,
+    DT=rotary_dt,
+)
+"""
+rotary_encoder = pyky040.Encoder(device="/dev/input/event0")
 rotary_encoder.setup(scale_min=0, scale_max=100, step=1, chg_callback=volume_callback)
 rotary_thread = threading.Thread(target=rotary_encoder.watch)
 rotary_thread.start()
