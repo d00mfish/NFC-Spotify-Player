@@ -163,29 +163,18 @@ def volume_thread():
 
     prev_vol = volume
     while True:
-        sleep(0.1)
+        sleep(0.05)
         gpio.set_led_dc(gpio.shuffle_led, volume)
         gpio.set_led_dc(gpio.skip_led, volume)
         elapsed = time() - start
-        """
-        if volume < 33:
-            gpio.set_button_led(gpio.skip_led, False)
-            gpio.set_button_led(gpio.shuffle_led, False)
-        elif volume > 33 and volume < 66:
-            gpio.set_button_led(gpio.skip_led, True)
-            gpio.set_button_led(gpio.shuffle_led, False)
-        elif volume > 66:
-            gpio.set_button_led(gpio.skip_led, True)
-            gpio.set_button_led(gpio.shuffle_led, True)
-        """
         if volume != prev_vol:
             start = time()
             prev_vol = volume
         elif elapsed > 1.2:
             spotify.set_volume(volume)
             vol_thread_active = False
-            gpio.set_button_led(gpio.skip_led, skip_before, 0)
-            gpio.set_button_led(gpio.shuffle_led, shuffle_before, 0)
+            gpio.set_button_led(gpio.skip_led, skip_before, 100)
+            gpio.set_button_led(gpio.shuffle_led, shuffle_before, 100)
             return
 
 
