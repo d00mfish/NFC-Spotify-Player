@@ -154,7 +154,7 @@ def refresh_shuffle_led():
     if not vol_thread_active:  # so volume pwm doesn't get interrupted
         shufflestate = spotify.get_shuffle_state()
         if shufflestate != -1:
-            gpio.set_button_led(gpio.shuffle_led, shufflestate, 300)
+            gpio.set_button_led(gpio.shuffle_led, int(shufflestate)*100, 300)
         else:
             gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 300)
             # Turning shuffle led off if no playback
