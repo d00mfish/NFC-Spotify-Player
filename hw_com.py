@@ -180,6 +180,7 @@ def set_led_dc(channel: object, dc):
 def set_button_led(channel: int, dc: int, speed_ms: int):
     dc_before = get_led_state(channel)
     if dc_before != dc:
+        print("dc_before:",dc_before,"dc:",dc)
         if speed_ms == 0:
             set_led_dc(channel, dc)
         elif dc_before < dc:
