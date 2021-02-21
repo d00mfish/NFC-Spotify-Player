@@ -33,7 +33,7 @@ pi.hardware_PWM(skip_led, 100, 0)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-sleep(0.3)
+sleep(0.3)#Wait for pullup to pull up
 pi.callback(shuffle_in, pigpio.FALLING_EDGE, main.shuffle_press)
 pi.callback(skip_in, pigpio.FALLING_EDGE, main.skip_press)
 pi.callback(playpause_in, pigpio.FALLING_EDGE, main.playpause_press)
@@ -209,13 +209,17 @@ def blink_ok():
         skip_before = get_led_state(skip_led)
         set_button_led(skip_led, False, 0)
         set_button_led(shuffle_led, False, 0)
-        set_button_led(skip_led, True, 50)
+        set_button_led(skip_led, True, 30)
         set_button_led(skip_led, False, 0)
-        set_button_led(shuffle_led, True, 50)
+        set_button_led(shuffle_led, True, 30)
         set_button_led(shuffle_led, False, 0)
-        set_button_led(skip_led, True, 50)
+        set_button_led(skip_led, True, 30)
         set_button_led(skip_led, False, 0)
-        set_button_led(skip_led, skip_before, 100)
-        set_button_led(shuffle_led, shuffle_before, 100)
+        set_button_led(skip_led, skip_before, 30)
+        set_button_led(shuffle_led, shuffle_before, 30)
 
     threading.Thread(target=blink_ok_thread).start()
+
+
+if __name__ == "__main__":
+    blink_ok()
