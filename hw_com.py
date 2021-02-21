@@ -224,20 +224,20 @@ def blink_ok():
         set_button_led(shuffle_led, OFF, 0)
 
         set_button_led(skip_led, ON, 200)
-        sleep(0.2)
+        sleep(0.4)
         set_button_led(skip_led, OFF, 0)
 
         set_button_led(shuffle_led, ON, 200)
-        sleep(0.2)
+        sleep(0.4)
         set_button_led(shuffle_led, OFF, 0)
 
         set_button_led(skip_led, ON, 200)
-        sleep(0.2)
+        sleep(0.4)
         set_button_led(skip_led, OFF, 0)
     
         set_button_led(skip_led, skip_before, 200)
         set_button_led(shuffle_led, shuffle_before, 200)
-        sleep(0.2)
+        sleep(0.4)
 
     threading.Thread(target=blink_ok_thread).start()
 
