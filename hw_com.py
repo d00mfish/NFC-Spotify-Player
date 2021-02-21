@@ -41,6 +41,14 @@ while (
     and pi.get_mode(playpause_in) == 0
 ):
     sleep(0.1)
+    print(
+            "state shuffle:",
+            pi.read(shuffle_in),
+            "state skip:",
+            pi.read(skip_in),
+            "state playpause:",
+            pi.read(playpause_in),
+        )
 pi.callback(shuffle_in, 0, main.shuffle_press)
 pi.callback(skip_in, 0, main.skip_press)
 pi.callback(playpause_in, 0, main.playpause_press)
