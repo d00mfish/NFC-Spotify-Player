@@ -224,13 +224,13 @@ def blink_ok():
         set_button_led(shuffle_led, OFF, 0)
         for _ in range(2):
             set_button_led(skip_led, ON, 0)
-            sleep(0.150)
+            sleep(0.70)
             set_button_led(skip_led, OFF, 0)
-            sleep(0.150)
+            sleep(0.70)
             set_button_led(shuffle_led, ON, 0)
-            sleep(0.150)
+            sleep(0.70)
             set_button_led(shuffle_led, OFF, 0)
-            sleep(0.150)
+            sleep(0.70)
         set_button_led(skip_led, skip_before, 50)
         set_button_led(shuffle_led, shuffle_before, 50)
 
