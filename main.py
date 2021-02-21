@@ -201,10 +201,12 @@ if __name__ == "__main__":
             gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 0)
             for i in range(5):
                 gpio.set_button_led(gpio.skip_led, gpio.ON, 150)
+                sleep(0.3)
                 gpio.set_button_led(gpio.shuffle_led, gpio.ON, 150)
                 # led rot an
                 sleep(0.3)
                 gpio.set_button_led(gpio.skip_led, gpio.OFF, 150)
+                sleep(0.3)
                 gpio.set_button_led(gpio.shuffle_led, gpio.OFF, 150)
                 # led rot aus
                 sleep(0.3)
