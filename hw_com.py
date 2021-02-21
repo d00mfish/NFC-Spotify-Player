@@ -189,7 +189,7 @@ def set_button_led(channel: int, dc: int, speed_ms: int):
                     sleep(sleeptime)
             threading.Thread(target=animation_up, args=(channel, dc , speed_ms)).start()
         elif dc_before > dc:
-            def animation_down():
+            def animation_down(channel, dc , speed_ms):
                 sleeptime = speed_ms / (dc_before - dc) / 1000
                 for dc_step in range(dc_before, dc - 1, -1):
                     set_led_dc(channel, dc_step)
