@@ -143,8 +143,9 @@ def playpause_press(pin, level, tick):  # currently only pauses
 
 
 def skip_press(pin, level, tick):
-    print("Skipping...", tick)
+    print("Skipping...")
     spotify.sp.next_track()
+    spotify.playstate = True
     gpio.set_button_led(gpio.skip_led, True, 150)
     gpio.set_button_led(gpio.skip_led, False, 150)
 
