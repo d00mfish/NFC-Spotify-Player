@@ -53,8 +53,13 @@ def volume_callback(way):
 
 
 def encoder_thread():
+    import time
+    import pigpio
+    import rotary_encoder
+    pi = pigpio.pi()
     decoder = rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)
-
+    time.sleep(300)
+    decoder.cancel()
 
 threading.Thread(target=encoder_thread).start()
 
