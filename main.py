@@ -181,8 +181,8 @@ def volume_thread():
         elif elapsed > 1.2:
             spotify.set_volume(volume)
             vol_thread_active = False
-            gpio.set_button_led(gpio.skip_led, skip_before, 0)
-            gpio.set_button_led(gpio.shuffle_led, shuffle_before, 0)
+            gpio.set_button_led(gpio.skip_led, skip_before, 100)
+            gpio.set_button_led(gpio.shuffle_led, shuffle_before, 100)
             return
 
 
