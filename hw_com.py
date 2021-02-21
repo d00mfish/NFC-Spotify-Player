@@ -166,13 +166,14 @@ def set_led_dc(channel: object, dc):
         97,
         99,
         100,
+        100
     )
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
     dc = int(state)*100 #dc in percent
-    if get_led_state(channel) != state:
+    if bool(get_led_state(channel)) != state:
         if speed_ms == 0:
             set_led_dc(channel, dc)
         elif state:

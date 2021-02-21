@@ -77,8 +77,8 @@ def main():
 
 
 def write_card():
-    gpio.set_button_led(gpio.skip_led, True, 0)
-    gpio.set_button_led(gpio.shuffle_led, True, 0)
+    gpio.set_button_led(gpio.skip_led, True, 70)
+    gpio.set_button_led(gpio.shuffle_led, True, 70)
     # Get current playlist uri and playing song info
     try:
         current = spotify.current_playback()
@@ -99,8 +99,8 @@ def write_card():
     print("Scan and hold the card you want to learn now.")
     print("Scan the learn-card again to abort.")
     str_uid = rfid.wait_for_uid()[1]
-    gpio.set_button_led(gpio.skip_led, False, 150)
-    gpio.set_button_led(gpio.shuffle_led, False, 150)
+    gpio.set_button_led(gpio.skip_led, False, 70)
+    gpio.set_button_led(gpio.shuffle_led, False, 70)
     if str_uid == spotify.learn_card_uid or str_uid == spotify.device_card_uid:
         print(" >Can't write uri to learn or device card. Arborting!")
         return -1
