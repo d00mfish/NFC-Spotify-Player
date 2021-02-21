@@ -18,7 +18,8 @@ def main():
     print("Waiting for RFID Signal...")
     # =====Main Loop=====
     while True:
-        uid, str_uid = rfid.check_once(1)
+        uid, str_uid = rfid.check_once(10)
+        '''
         print(
             "state shuffle:",
             gpio.pi.read(gpio.shuffle_in),
@@ -27,6 +28,7 @@ def main():
             "state playpause:",
             gpio.pi.read(gpio.playpause_in),
         )
+        '''
         # timeout controlls refresh time for e.g. shuffle refresh
         refresh_shuffle_led()
         volume = spotify.get_volume()
