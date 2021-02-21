@@ -34,8 +34,8 @@ pi.hardware_PWM(skip_led, 100, 0)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-#while not pi.get_mode(shuffle_in) and not pi.get_mode(skip_in) and not pi.get_mode(playpause_in):
-#    sleep(0.1)
+while not pi.get_mode(shuffle_in) and not pi.get_mode(skip_in) and not pi.get_mode(playpause_in):
+    sleep(0.1)
 pi.callback(shuffle_in, 0, main.shuffle_press)
 pi.callback(skip_in, 0, main.skip_press)
 pi.callback(playpause_in, 0, main.playpause_press)
