@@ -182,15 +182,19 @@ def set_button_led(channel: int, dc: int, speed_ms: int):
         if speed_ms == 0:
             set_led_dc(channel, dc)
         elif dc_before < dc:
-            sleeptime = speed_ms / (dc - dc_before) / 1000
-            for dc_step in range(dc_before, dc + 1, 1):
-                set_led_dc(channel, dc_step)
-                sleep(sleeptime)
+            def animation_up(channel, dc , speed_ms):
+                sleeptime = speed_ms / (dc - dc_before) / 1000
+                for dc_step in range(dc_before, dc + 1, 1):
+                    set_led_dc(channel, dc_step)
+                    sleep(sleeptime)
+            threading.Thread(target=animation_up, args=(channel, dc , speed_ms)).start()
         elif dc_before > dc:
-            sleeptime = speed_ms / (dc_before - dc) / 1000
-            for dc_step in range(dc_before, dc - 1, -1):
-                set_led_dc(channel, dc_step)
-                sleep(sleeptime)
+            def animation_down():
+                sleeptime = speed_ms / (dc_before - dc) / 1000
+                for dc_step in range(dc_before, dc - 1, -1):
+                    set_led_dc(channel, dc_step)
+                    sleep(sleeptime)
+            threading.Thread(target=animation_down, args=(channel, dc , speed_ms)).start()
 
 
 def blink_error():
