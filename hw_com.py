@@ -48,7 +48,8 @@ def volume_callback(way):
         threading.Thread(target=main.volume_thread).start()
 
 
-decoder = rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)
+
+threading.Thread(target=rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)).start()
 '''
 rotary_encoder = pyky040.Encoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
@@ -172,7 +173,7 @@ def set_led_dc(channel: object, dc):
         100,
         100
     )
-    print("Dutycycle:",dc)
+    #print("Dutycycle:",dc)
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
