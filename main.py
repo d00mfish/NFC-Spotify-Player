@@ -8,8 +8,6 @@ tmp_vol = volume
 vol_thread_active = False
 
 
-
-
 def main():
     global volume
     print("Scan the learn-card to add a Playlist to the system.")
@@ -20,7 +18,15 @@ def main():
     print("Waiting for RFID Signal...")
     # =====Main Loop=====
     while True:
-        uid, str_uid = rfid.check_once(10)
+        uid, str_uid = rfid.check_once(1)
+        print(
+            "state shuffle:",
+            gpio.pi.read(gpio.shuffle_in),
+            "state skip:",
+            gpio.pi.read(gpio.skip_in),
+            "state playpause:",
+            gpio.pi.read(gpio.playpause_in),
+        )
         # timeout controlls refresh time for e.g. shuffle refresh
         refresh_shuffle_led()
         volume = spotify.get_volume()
@@ -139,8 +145,6 @@ def skip_press(pin, level, tick):
     spotify.sp.next_track()
     gpio.set_button_led(gpio.skip_led, True, 150)
     gpio.set_button_led(gpio.skip_led, False, 150)
-
-
 
 
 def refresh_shuffle_led():
