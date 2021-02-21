@@ -3,7 +3,8 @@ import configparser
 import threading
 from time import sleep
 import pigpio
-from pyky040 import pyky040
+#from pyky040 import pyky040
+import rotary_encoder
 
 
 # =====Getting config values=====
@@ -41,18 +42,21 @@ pi.callback(playpause_in, 0, main.playpause_press)
 # debounce 1000 1000 500 ?
 
 # =====Rotary setup and inizialisation=====
-def volume_callback(scale_position):
-    main.volume = scale_position
+def volume_callback(way):
+    main.volume += way
     if not main.vol_thread_active:
         threading.Thread(target=main.volume_thread).start()
 
 
+decoder = rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)
+'''
 rotary_encoder = pyky040.Encoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
 )  # not needed if device added in boot
 rotary_encoder.setup(scale_min=0, scale_max=100, step=1, chg_callback=volume_callback)
 rotary_thread = threading.Thread(target=rotary_encoder.watch)
 rotary_thread.start()
+'''
 
 # =====Functions=====
 def convert_value(inputval, maxinput, maxoutput):
