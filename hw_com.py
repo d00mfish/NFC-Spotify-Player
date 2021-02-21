@@ -3,7 +3,8 @@ import configparser
 import threading
 from time import sleep
 import pigpio
-#from pyky040 import pyky040
+
+# from pyky040 import pyky040
 import rotary_encoder
 
 
@@ -34,7 +35,11 @@ pi.hardware_PWM(skip_led, 100, 0)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-while not pi.get_mode(shuffle_in) and not pi.get_mode(skip_in) and not pi.get_mode(playpause_in):
+while (
+    pi.get_mode(shuffle_in) == 0
+    and pi.get_mode(skip_in) == 0
+    and pi.get_mode(playpause_in) == 0
+):
     sleep(0.1)
 pi.callback(shuffle_in, 0, main.shuffle_press)
 pi.callback(skip_in, 0, main.skip_press)
@@ -51,18 +56,21 @@ def volume_callback(way):
         if not main.vol_thread_active:
             threading.Thread(target=main.volume_thread).start()
 
+
 def encoder_thread():
     decoder = rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)
+
+
 threading.Thread(target=encoder_thread).start()
 
-'''
+"""
 rotary_encoder = pyky040.Encoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
 )  # not needed if device added in boot
 rotary_encoder.setup(scale_min=0, scale_max=100, step=1, chg_callback=volume_callback)
 rotary_thread = threading.Thread(target=rotary_encoder.watch)
 rotary_thread.start()
-'''
+"""
 
 # =====Functions=====
 def convert_value(inputval, maxinput, maxoutput):
@@ -70,7 +78,7 @@ def convert_value(inputval, maxinput, maxoutput):
 
 
 def get_led_state(channel):
-    return pi.read(channel)*100
+    return pi.read(channel) * 100
 
 
 def set_led_dc(channel: object, dc):
@@ -176,14 +184,14 @@ def set_led_dc(channel: object, dc):
         97,
         99,
         100,
-        100
+        100,
     )
-    #print("Dutycycle:",dc)
+    # print("Dutycycle:",dc)
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
 def set_button_led(channel: int, state: bool, speed_ms: int):
-    dc = int(state)*100 #dc in percent
+    dc = int(state) * 100  # dc in percent
     if bool(get_led_state(channel)) != state:
         if speed_ms == 0:
             set_led_dc(channel, dc)
