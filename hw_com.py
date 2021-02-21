@@ -5,6 +5,9 @@ from time import sleep
 import pigpio
 from pyky040 import pyky040
 
+ON = 100
+OFF = 0
+
 
 # =====Getting config values=====
 config = configparser.ConfigParser(allow_no_value=True)
@@ -193,13 +196,13 @@ def blink_error():
     def blink_error_thread():
         shuffle_before = get_led_state(shuffle_led)
         skip_before = get_led_state(skip_led)
-        set_button_led(skip_led, False, 0)
-        set_button_led(shuffle_led, False, 0)
+        set_button_led(skip_led, OFF, 0)
+        set_button_led(shuffle_led, OFF, 0)
         for _ in range(3):
-            set_button_led(skip_led, True, 150)
-            set_button_led(skip_led, False, 150)
-            set_button_led(shuffle_led, True, 150)
-            set_button_led(shuffle_led, False, 150)
+            set_button_led(skip_led, ON, 150)
+            set_button_led(skip_led, OFF, 150)
+            set_button_led(shuffle_led, ON, 150)
+            set_button_led(shuffle_led, OFF, 150)
         set_button_led(shuffle_led, shuffle_before, 50)
         set_button_led(skip_led, skip_before, 50)
 
@@ -210,14 +213,14 @@ def blink_ok():
     def blink_ok_thread():
         shuffle_before = get_led_state(shuffle_led)
         skip_before = get_led_state(skip_led)
-        set_button_led(skip_led, False, 0)
-        set_button_led(shuffle_led, False, 0)
-        set_button_led(skip_led, True, 30)
-        set_button_led(skip_led, False, 0)
-        set_button_led(shuffle_led, True, 30)
-        set_button_led(shuffle_led, False, 0)
-        set_button_led(skip_led, True, 30)
-        set_button_led(skip_led, False, 0)
+        set_button_led(skip_led, OFF, 0)
+        set_button_led(shuffle_led, OFF, 0)
+        set_button_led(skip_led, ON, 30)
+        set_button_led(skip_led, OFF, 0)
+        set_button_led(shuffle_led, ON, 30)
+        set_button_led(shuffle_led, OFF, 0)
+        set_button_led(skip_led, ON, 30)
+        set_button_led(skip_led, OFF, 0)
         set_button_led(skip_led, skip_before, 30)
         set_button_led(shuffle_led, shuffle_before, 30)
 
