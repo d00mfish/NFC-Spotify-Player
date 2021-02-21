@@ -30,9 +30,6 @@ pi.set_mode(playpause_in, pigpio.INPUT)
 pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
-print("state shuffle:",pi.read(shuffle_in))
-print("state skip:",pi.read(skip_in))
-print("state playpause:",pi.read(playpause_in))
 # Init PWM
 # pi.set_PWM_range(shuffle_led_pin, 100)
 # pi.set_PWM_range(skip_led_pin, 100)
@@ -46,13 +43,19 @@ pi.callback(playpause_in, 0, main.playpause_press)
 
 # =====Rotary setup and inizialisation=====
 def volume_callback(way):
-    main.volume += way
-    if not main.vol_thread_active:
-        threading.Thread(target=main.volume_thread).start()
+    if main.volume == 100 and way > 0:
+        return
+    elif main.volume == 0 and way < 0:
+        return
+    else:
+        main.volume += way
+        if not main.vol_thread_active:
+            threading.Thread(target=main.volume_thread).start()
 
+def encoder_thread():
+    decoder = rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)
+threading.Thread(target=encoder_thread).start()
 
-
-threading.Thread(target=rotary_encoder.decoder(pi, rotary_clk, rotary_dt, volume_callback)).start()
 '''
 rotary_encoder = pyky040.Encoder(
     CLK=rotary_clk, DT=rotary_dt, SW=playpause_in
