@@ -174,19 +174,19 @@ def set_led_dc(channel: object, dc):
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
-def set_button_led(channel: int, state: bool, speed_ms: int):
-    dc = int(state) * 100  # dc in percent
-    if bool(get_led_state(channel)) != state:
+def set_button_led(channel: int, dc: int, speed_ms: int):
+    dc_before = get_led_state(channel)
+    if dc_before != dc:
         if speed_ms == 0:
             set_led_dc(channel, dc)
-        elif state:
-            for dc in range(1, 101, 1):
+        elif dc_before < dc:
+            for dc in range(dc_before, dc+1, 1):
                 set_led_dc(channel, dc)
-                sleep(speed_ms / 100 / 1000)
-        else:
-            for dc in range(100, -1, -1):
+                sleep(speed_ms /(dc-dc_before) / 1000)
+        elif dc_before > dc:
+            for dc in range(dc_before, dc-1, -1):
                 set_led_dc(channel, dc)
-                sleep(speed_ms / 100 / 1000)
+                sleep(speed_ms /(dc_before-dc) / 1000)
 
 
 def blink_error():
