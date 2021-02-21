@@ -141,6 +141,7 @@ def playpause_press(pin, level, tick):  # currently only pauses
     try:
         spotify.playpause()
     except:
+        gpio.blink_error()
         return
     gpio.blink_ok()
 

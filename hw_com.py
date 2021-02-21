@@ -205,9 +205,11 @@ def blink_error():
         set_button_led(shuffle_led, OFF, 0)
         for _ in range(3):
             set_button_led(skip_led, ON, 150)
-            set_button_led(skip_led, OFF, 150)
             set_button_led(shuffle_led, ON, 150)
+            sleep(0.3)
+            set_button_led(skip_led, OFF, 150)
             set_button_led(shuffle_led, OFF, 150)
+            sleep(0.3)
         set_button_led(shuffle_led, shuffle_before, 50)
         set_button_led(skip_led, skip_before, 50)
 
