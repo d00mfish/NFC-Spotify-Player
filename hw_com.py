@@ -61,7 +61,13 @@ def convert_value(inputval, maxinput, maxoutput):
 
 
 def get_led_state(channel):
-    return pi.read(channel) * 100
+    val = pi.read(channel)
+    print("led state:",val)
+    if val == 0 or val == 1:
+        return val * 100
+    else:
+        return val
+    
 
 
 def set_led_dc(channel: object, dc):
@@ -169,7 +175,7 @@ def set_led_dc(channel: object, dc):
         100,
         100,
     )
-    print("Dutycycle:",dc)
+    #print("Dutycycle:",dc)
     pi.hardware_PWM(channel, 100, correction_table[dc] * 10000)
 
 
