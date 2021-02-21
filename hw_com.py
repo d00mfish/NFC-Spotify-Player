@@ -220,8 +220,8 @@ def blink_ok():
     def blink_ok_thread():
         shuffle_before = get_led_state(shuffle_led)
         skip_before = get_led_state(skip_led)
-        set_button_led(skip_led, OFF, 0)
-        set_button_led(shuffle_led, OFF, 0)
+        #set_button_led(skip_led, OFF, 0)
+        #set_button_led(shuffle_led, OFF, 0)
         sleep(0.05)
         set_button_led(skip_led, ON, 150)
         sleep(0.3)
