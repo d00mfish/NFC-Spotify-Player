@@ -20,26 +20,26 @@ rotary_dt = int(config["PINS"]["rotary_dt"])
 
 # =====Button setup and inizialisation=====
 pi = pigpio.pi()
-# pi.set_mode(shuffle_led, pigpio.OUTPUT)
-# pi.set_mode(skip_led, pigpio.OUTPUT)
+pi.set_pull_up_down(shuffle_in, pigpio.PUD_UP)
+pi.set_pull_up_down(skip_in, pigpio.PUD_UP)
+sleep(0.1)
 pi.set_mode(shuffle_in, pigpio.INPUT)
 pi.set_mode(skip_in, pigpio.INPUT)
 pi.set_mode(playpause_in, pigpio.INPUT)
-#pi.set_pull_up_down(shuffle_in, pigpio.PUD_UP)
-#pi.set_pull_up_down(skip_in, pigpio.PUD_UP)
-pi.set_glitch_filter(shuffle_in, 70000)
-pi.set_glitch_filter(skip_in, 70000)
-pi.set_glitch_filter(playpause_in, 70000)
 # Init PWM
 # pi.set_PWM_range(shuffle_led_pin, 100)
 # pi.set_PWM_range(skip_led_pin, 100)
 pi.hardware_PWM(shuffle_led, 100, 0)
 pi.hardware_PWM(skip_led, 100, 0)
 # =====Interrupt listener init=====
+pi.set_glitch_filter(shuffle_in, 70000)
+pi.set_glitch_filter(skip_in, 70000)
+pi.set_glitch_filter(playpause_in, 70000)
+#while not pi.get_mode(shuffle_in) and not pi.get_mode(skip_in) and not pi.get_mode(playpause_in):
+#    sleep(0.1)
 pi.callback(shuffle_in, 0, main.shuffle_press)
 pi.callback(skip_in, 0, main.skip_press)
 pi.callback(playpause_in, 0, main.playpause_press)
-# debounce 1000 1000 500 ?
 
 # =====Rotary setup and inizialisation=====
 def volume_callback(way):
