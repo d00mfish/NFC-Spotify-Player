@@ -138,7 +138,10 @@ def shuffle_press(pin, level, tick):
 
 
 def playpause_press(pin, level, tick):  # currently only pauses
-    spotify.playpause()
+    try:
+        spotify.playpause()
+    except:
+        return
     gpio.blink_ok()
 
 
