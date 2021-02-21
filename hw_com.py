@@ -179,20 +179,18 @@ def set_led_dc(channel: object, dc):
 def set_button_led(channel: int, dc: int, speed_ms: int):
     dc_before = get_led_state(channel)
     if dc_before != dc:
-        print("dc_before:", dc_before, "dc:", dc)
         if speed_ms == 0:
             set_led_dc(channel, dc)
         elif dc_before < dc:
-            for dc in range(dc_before, dc + 1, 1):
-                set_led_dc(channel, dc)
-                print("dc-dc_before:", dc - dc_before)
-                print("type of dc: ",type(dc), "and dc_before:",type(dc_before))
-                sleep(speed_ms / (dc - dc_before) / 1000)
+            sleeptime = speed_ms / (dc - dc_before) / 1000
+            for dc_step in range(dc_before, dc + 1, 1):
+                set_led_dc(channel, dc_step)
+                sleep(sleeptime)
         elif dc_before > dc:
-            for dc in range(dc_before, dc - 1, -1):
-                set_led_dc(channel, dc)
-                print("dc_before - dc:", dc_before - dc)
-                sleep(speed_ms / (dc_before - dc) / 1000)
+            sleeptime = speed_ms / (dc_before - dc) / 1000
+            for dc_step in range(dc_before, dc - 1, -1):
+                set_led_dc(channel, dc_step)
+                sleep(sleeptime)
 
 
 def blink_error():
