@@ -36,9 +36,9 @@ pi.set_glitch_filter(shuffle_in, 70000)
 pi.set_glitch_filter(skip_in, 70000)
 pi.set_glitch_filter(playpause_in, 70000)
 while (
-    pi.get_mode(shuffle_in) == 0
-    and pi.get_mode(skip_in) == 0
-    and pi.get_mode(playpause_in) == 0
+    pi.read(shuffle_in) == 0
+    and pi.read(skip_in) == 0
+    and pi.read(playpause_in) == 0
 ):
     sleep(0.1)
     print(
