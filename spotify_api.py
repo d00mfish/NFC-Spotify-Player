@@ -1,5 +1,6 @@
 import time
 import configparser
+from requests.models import HTTPError
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -19,6 +20,7 @@ sp = spotipy.Spotify(
         client_secret=config["AUTH"]["client_secret"],
         redirect_uri=config["AUTH"]["redirect_uri"],
         scope=config["AUTH"]["scope"],
+        open_browser=False
     )
 )
 
@@ -125,4 +127,4 @@ def play_URIs(uris: list):
 
 
 if __name__ == "__main__":
-    sp.pause_playback(device_id=config["DEVICE"]["device_id"])
+        sp.pause_playback(device_id=config["DEVICE"]["device_id"])
