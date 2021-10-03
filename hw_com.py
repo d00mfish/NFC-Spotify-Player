@@ -8,6 +8,11 @@ from pyky040 import pyky040
 ON = 100
 OFF = 0
 
+#Device Overlay is more reliable
+#for help see: https://github.com/raphaelyancey/pyKY040#should-i-use-the-gpio-polling-or-the-device-overlay
+use_device_overlay = True
+rotary_encoder_device = "/dev/input/event0"
+
 
 # =====Getting config values=====
 config = configparser.ConfigParser(allow_no_value=True)
@@ -45,14 +50,10 @@ def volume_callback(scale_position):
     if not main.vol_thread_active:
         threading.Thread(target=main.volume_thread).start()
 
-
-"""
-rotary_encoder = pyky040.Encoder(
-    CLK=rotary_clk,
-    DT=rotary_dt,
-)
-"""
-rotary_encoder = pyky040.Encoder(device="/dev/input/event0")
+if use_device_overlay:
+    rotary_encoder = pyky040.Encoder(device=rotary_encoder_device)
+else:
+    rotary_encoder = pyky040.Encoder(CLK=rotary_clk,DT=rotary_dt,)
 rotary_encoder.setup(scale_min=0, scale_max=100, step=1, chg_callback=volume_callback)
 rotary_thread = threading.Thread(target=rotary_encoder.watch)
 rotary_thread.start()
